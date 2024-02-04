@@ -290,11 +290,22 @@ class CashRegisterController extends Controller
                 }
 
             }
+            if ($expense->first()->total == null) {
+                $expense = 0;
+            } else {
+                $expense = $expense->first()->total;
+            }
+            if ($sale->first()->total == null) {
+                $sale = 0;
+            } else {
+                $sale = $sale->first()->total;
+            }
+            $profit = $sale - $expense;
             $pm = implode('|', $payment);
             ProfitRegister::create([
                 'payments' => $pm,
-                'sale' => $sale->first()->total,
-                'expense' => $expense->first()->total,
+                'sale' => $sale,
+                'expense' => $expense,
                 'profit' => $profit,
                 'date' => $date,
                 'id_user' => auth()->user()->id,
