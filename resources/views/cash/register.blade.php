@@ -328,6 +328,19 @@
                         @endif
                     </div>
                 </div>
+                <div>
+                    @if(session('success'))
+                        <div class="col-md-4 alert alert-success">
+                            {{ session('success_s') }}
+                        </div>
+                    @endif
+                    @if(session('error_s'))
+                        <div class="col-md-4 alert alert-success">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                </div>
             @endif
             <script>
                 document.getElementById('date').addEventListener('change', function() {
