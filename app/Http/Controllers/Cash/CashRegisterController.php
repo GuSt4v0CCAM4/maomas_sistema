@@ -290,12 +290,12 @@ class CashRegisterController extends Controller
                 }
 
             }
-            if ($expense->first()->total == null) {
+            if (count($expense) == 0) {
                 $expense = 0;
             } else {
                 $expense = $expense->first()->total;
             }
-            if ($sale->first()->total == null) {
+            if (count($sale) == 0) {
                 $sale = 0;
             } else {
                 $sale = $sale->first()->total;
