@@ -303,7 +303,7 @@ class CashRegisterController extends Controller
             ]);
             return redirect()->route('cashregister')->with('success', 'Cierre de caja registrado con exito!!');
         }catch (\Exception $e){
-            return redirect()->route('cashregister')->with('error', 'Ocurrio un error a la hora de registrar el cierre de caja');
+            return redirect()->route('cashregister')->with('error', 'Ocurrio un error al registrar el cierre de caja, el error es: ' . $e->getMessage());
         }
     }
 }
