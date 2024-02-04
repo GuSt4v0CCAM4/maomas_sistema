@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+
 function Example() {
     return (
         <div className="container">
@@ -16,6 +17,7 @@ function Example() {
         </div>
     );
 }
+
 
 export default Example;
 

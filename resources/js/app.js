@@ -5,6 +5,7 @@
  */
 
 import './bootstrap';
+import './mychart.js';
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -13,3 +14,6 @@ import './bootstrap';
  */
 
 import './components/Example';
+
+
+
