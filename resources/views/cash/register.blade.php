@@ -331,10 +331,10 @@
                 <div>
                     @if(session('success'))
                         <div class="col-md-4 alert alert-success">
-                            {{ session('success_s') }}
+                            {{ session('success') }}
                         </div>
                     @endif
-                    @if(session('error_s'))
+                    @if(session('error'))
                         <div class="col-md-4 alert alert-success">
                             {{ session('error') }}
                         </div>
