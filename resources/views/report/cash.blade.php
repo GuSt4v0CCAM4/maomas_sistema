@@ -58,12 +58,12 @@
             </div>
 
             <div style="width: 220px; text-align: center;">
-                <h4>Ganancias</h4>
+                <h4>Ingresos</h4>
                 <canvas id="myChart3"></canvas>
             </div>
         </div>
 
-        <table class="table mt-5">
+        <table class="table mt-5 table-striped-columns">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">Tienda</th>
@@ -78,10 +78,10 @@
             </thead>
             <tbody>
             @php
-                $totalGanancia = [0.0,0.0,0.0,0.0,0.0,0.0];
-                $ganancias = [0.0,0.0,0.0,0.0];
-                $expenses = [0.0,0.0,0.0,0.0];
-                $profits = [0.0,0.0,0.0,0.0];
+                $totalGanancia = [0.0,0.0,0.0,0.0,0.0];
+                $ganancias = [0.0,0.0,0.0,0.0]; //para los graficos
+                $expenses = [0.0,0.0,0.0,0.0];//para los graficos
+                $profits = [0.0,0.0,0.0,0.0];//para los graficos
             @endphp
             @if(isset($tienda1) && $tienda1->count() > 0)
                 @php
@@ -89,7 +89,7 @@
                     $subsuma = 0;
                 @endphp
                 <tr>
-                    <th scope="row" rowspan="{{ $rowspanValue }}">{{ $tienda1->first()->name }}</th>
+                    <th scope="row" rowspan="{{ $rowspanValue }}" style="background-color: rgba(255, 99, 132, 0.8)">{{ $tienda1->first()->name }}</th>
                 @foreach($tienda1 as $t1)
                     @php
                         $payment = $t1->payments;
@@ -101,8 +101,14 @@
                         $ganancias[0] += $t1->profit;
                         $expenses[0] += $t1->expense;
                         $profits[0] += $t1->sale;
+                   //setear la fecha en el formato: lunes 01 de Enero,2024
+                            $date = $t1->date;
+                            setlocale(LC_TIME, 'es_ES');
+                            $fecha_formateada = strftime("%A %d de %B, %Y", strtotime($date));
+
+
                     @endphp
-                        <td>{{ $t1->date }}</td></td>
+                        <td>{{ $fecha_formateada }}</td>
                         <td>S/. {{ $arraypayment[0] }}</td>
                         <td>S/. {{ $arraypayment[1] }}</td>
                         <td>S/. {{ $arraypayment[2] }}</td>
@@ -112,14 +118,12 @@
                 </tr>
 
                 @endforeach
-                <tr>
-                    <th scope="row">Subsuma</th>
+                <tr class="table-primary">
+                    <th scope="row" >Subsuma</th>
                     <td></td> <!-- Deja las celdas vacías para las columnas que no deben tener valores en esta fila -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    @foreach($totalGanancia as $key => $value)
+                        <td>S/. {{ $value }}</td>
+                    @endforeach
                     <th scope="row">S/. {{ $subsuma }}</th>
                 </tr>
             @endif
@@ -130,7 +134,7 @@
 
                 @endphp
                 <tr>
-                    <th scope="row" rowspan="{{ $rowspanValue }}">{{ $tienda2->first()->name }}</th>
+                    <th scope="row" rowspan="{{ $rowspanValue }}" style="background-color: rgba(54, 162, 235, 0.8)">{{ $tienda2->first()->name }}</th>
                     @foreach($tienda2 as $t1)
                         @php
 
@@ -143,8 +147,12 @@
                             $ganancias[1] += $t1->profit;
                             $expenses[1] += $t1->expense;
                         $profits[1] += $t1->sale;
+                        //setear la fecha en el formato: lunes 01 de Enero,2024
+                            $date = $t1->date;
+                            setlocale(LC_TIME, 'es_ES');
+                            $fecha_formateada = strftime("%A %d de %B, %Y", strtotime($date));
                         @endphp
-                        <td>{{ $t1->date }}</td>
+                        <td>{{ $fecha_formateada }}</td>
                         <td>S/. {{ $arraypayment[0] }}</td>
                         <td>S/. {{ $arraypayment[1] }}</td>
                         <td>S/. {{ $arraypayment[2] }}</td>
@@ -154,14 +162,12 @@
                 </tr>
 
                 @endforeach
-                <tr>
-                    <th scope="row">Subsuma</th>
+                <tr class="table-primary">
+                    <th scope="row" >Subsuma</th>
                     <td></td> <!-- Deja las celdas vacías para las columnas que no deben tener valores en esta fila -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    @foreach($totalGanancia as $key => $value)
+                        <td>S/. {{ $value }}</td>
+                    @endforeach
                     <th scope="row">S/. {{ $subsuma }}</th>
                 </tr>
             @endif
@@ -172,7 +178,7 @@
 
                 @endphp
                 <tr>
-                    <th scope="row" rowspan="{{ $rowspanValue }}">{{ $tienda3->first()->name }}</th>
+                    <th scope="row" rowspan="{{ $rowspanValue }}" style="background-color: rgba(255, 206, 86, 0.8)">{{ $tienda3->first()->name }}</th>
                     @foreach($tienda3 as $t1)
                         @php
 
@@ -185,8 +191,12 @@
                             $ganancias[2] += $t1->profit;
                             $expenses[2] += $t1->expense;
                             $profits[2] += $t1->sale;
+                        //setear la fecha en el formato: lunes 01 de Enero,2024
+                            $date = $t1->date;
+                            setlocale(LC_TIME, 'es_ES');
+                            $fecha_formateada = strftime("%A %d de %B, %Y", strtotime($date));
                         @endphp
-                        <td>{{ $t1->date }}</td>
+                        <td>{{ $fecha_formateada }}</td>
                         <td>S/. {{ $arraypayment[0] }}</td>
                         <td>S/. {{ $arraypayment[1] }}</td>
                         <td>S/. {{ $arraypayment[2] }}</td>
@@ -196,14 +206,12 @@
                 </tr>
 
                 @endforeach
-                <tr>
-                    <th scope="row">Subsuma</th>
+                <tr class="table-primary">
+                    <th scope="row" >Subsuma</th>
                     <td></td> <!-- Deja las celdas vacías para las columnas que no deben tener valores en esta fila -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    @foreach($totalGanancia as $key => $value)
+                        <td>S/. {{ $value }}</td>
+                    @endforeach
                     <th scope="row">S/. {{ $subsuma }}</th>
                 </tr>
             @endif
@@ -214,38 +222,45 @@
 
                 @endphp
                 <tr>
-                    <th scope="row" rowspan="{{ $rowspanValue }}">{{ $tienda4->first()->name }}</th>
+                    <th scope="row" rowspan="{{ $rowspanValue }}" style="background-color: rgba(75, 192, 192, 0.8)">{{ $tienda4->first()->name }}</th>
                     @foreach($tienda4 as $t1)
                         @php
 
                             $payment = $t1->payments;
-                            $arraypayment = explode('|', $payment);
+                            $arraypayment = explode('|', $payment); // separar el string en un array
                             for ($i = 0; $i < 5; $i++) {
-                            $totalGanancia[$i] += $arraypayment[$i];
+                            $totalGanancia[$i] += $arraypayment[$i]; //sumamos todos los array
+                            //de los registros para obtener la ganancia total por metodo de pago
                         }
-                            $subsuma += array_sum($arraypayment);
-                            $ganancias[3] += $t1->profit;
-                            $expenses[3] += $t1->expense;
-                            $profits[3] += $t1->sale;
+                            $subsuma += array_sum($arraypayment); //ahora sumamos el valor de todos los medios de pago
+                            // para tenr la ganancia del dia y lo adjuntamos en subsuma que se ira sumando con el arraypayment
+                            // de cada dia para tener la subsuma de esa tienda en total
+                            //del array para obtener la suma total de lo diferentes metodos de pago
+                            $ganancias[3] += $t1->profit; //sumamos las ventas de esta tienda con id 3
+                            $expenses[3] += $t1->expense; //sumamos las gastos de esta tienda con id 3
+                            $profits[3] += $t1->sale; //sumamos las ganancia de esta tienda con id 3
+
+                            //setear la fecha en el formato: lunes 01 de Enero,2024
+                            $date = $t1->date;
+                            setlocale(LC_TIME, 'es_ES');
+                            $fecha_formateada = strftime("%A %d de %B, %Y", strtotime($date));
                         @endphp
-                        <td>{{ $t1->date }}></td>
+                        <td>{{ $fecha_formateada }}</td>
                         <td>S/. {{ $arraypayment[0] }}</td>
                         <td>S/. {{ $arraypayment[1] }}</td>
                         <td>S/. {{ $arraypayment[2] }}</td>
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
-                        <td>S/. {{array_sum($arraypayment)}}</td>
+                        <td>S/. {{array_sum($arraypayment)}}</td> <!-- sumamos el array para obtener la ganancia total de la tienda en un dia -->
                 </tr>
 
                 @endforeach
-                <tr>
-                    <th scope="row">Subsuma</th>
+                <tr class="table-primary">
+                    <th scope="row" >Subsuma</th>
                     <td></td> <!-- Deja las celdas vacías para las columnas que no deben tener valores en esta fila -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    @foreach($totalGanancia as $key => $value)
+                        <td>S/. {{ $value }}</td>
+                    @endforeach
                     <th scope="row">S/. {{ $subsuma }}</th>
                 </tr>
             @endif

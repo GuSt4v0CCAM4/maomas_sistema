@@ -38,20 +38,22 @@
                 <i class="bi bi-cash-coin" style="font-size: 2rem;"></i>
             </button>
             <label class="textGanancias">
-                <span class="spanGanancias"> Ganancias Totales</span> <br>
+                <span class="spanGanancias"> Ingresos Totales</span> <br>
                 S/.{{$total_profit}}
             </label>
         </div>
         <table class="table table-striped mt-4">
             <thead class="table-dark">
                 <tr>
+
                     <th scope="col">#</th>
+                    <th scope="col">Fecha:</th>
+                    <th scope="col">Vendedor:</th>
                     <th scope="col">Ventas:</th>
                     <th scope="col">Gastos:</th>
-                    <th scope="col">Ganancias:</th>
+                    <th scope="col">Ingresos:</th>
                     <th scope="col">Balance:</th>
-                    <th scope="col">Fecha (Y-M-D):</th>
-                    <th scope="col">Vendedor:</th>
+
                     <th></th>
                 </tr>
 
@@ -66,16 +68,21 @@
                             @php
                                 $i++;;
                                 $total_profit += $c->profit;
+                                //setear la fecha en el formato: lunes 01 de Enero,2024
+                            $date = $c->date;
+                            setlocale(LC_TIME, 'es_ES');
+                            $fecha_formateada = strftime("%A %d de %B, %Y", strtotime($date));
                             @endphp
                                 <tr>
                                 <td>{{$i}}</td>
+                                    <td>{{$fecha_formateada}}</td>
+                                    <td>{{$c->name}}</td>
                                     <td>S/. {{$c->profit}}</td>
                                 <td>S/. {{$c->expense}}</td>
                                     <td>S/. {{$c->sale}}</td>
 
                                 <td class="{{($c->balance > 0) ? 'text-danger' : 'text-success'}}">{{abs($c->balance)}}</td>
-                                <td>{{$c->date}}</td>
-                                <td>{{$c->name}}</td>
+
                                     <td>
                                         <button type="submit" onclick="location.href='{{route('editprofit',['id' => $c->id_reg])}}'"
                                                 class="btn btn-primary" style="padding: 0.1rem 0.2rem; font-size: 0.8rem;" >

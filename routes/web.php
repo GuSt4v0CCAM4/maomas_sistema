@@ -42,3 +42,4 @@ Route::get('/eliminandoganacias', [App\Http\Controllers\Cash\CashConsultControll
 
 //reportes
 Route::get('/cashreport', [App\Http\Controllers\Report\CashReportController::class, 'index'])->name('cashreport');
+Route::get('/sellerreport', [App\Http\Controllers\Report\SellerReportController::class, 'index'])->name('sellerreport');

@@ -48,7 +48,7 @@
                                 <a class="nav-link" href="{{url('/cashconsult')}}"><i class="bi bi-caret-right-fill"></i> Consultar Caja</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="bi bi-caret-right-fill"></i> Ranking de Trabajadores</a>
+                                <a class="nav-link" href="{{url('/sellerreport')}}"><i class="bi bi-caret-right-fill"></i> Ranking de Trabajadores</a>
                             </li>
                         </ul>
                     </div>

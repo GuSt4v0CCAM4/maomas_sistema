@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "295871ddd192ba35e61a71d0ff6653f3",
+    "content-hash": "8d2981d96b95e81c2eaf106759f71e5f",
     "packages": [
         {
             "name": "brick/math",
@@ -2058,16 +2058,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.72.2",
+            "version": "2.72.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130"
+                "reference": "0c6fd108360c562f6e4fd1dedb8233b423e91c83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3e7edc41b58d65509baeb0d4a14c8fa41d627130",
-                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/0c6fd108360c562f6e4fd1dedb8233b423e91c83",
+                "reference": "0c6fd108360c562f6e4fd1dedb8233b423e91c83",
                 "shasum": ""
             },
             "require": {
@@ -2161,7 +2161,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-19T00:21:53+00:00"
+            "time": "2024-01-25T10:35:09+00:00"
         },
         {
             "name": "nette/schema",
