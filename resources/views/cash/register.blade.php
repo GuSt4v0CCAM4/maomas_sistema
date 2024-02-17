@@ -129,6 +129,9 @@
                                                 <option selected disabled value="0">--Seleccione una opción--</option>
                                                 <option value="1" >Gastos Operativos</option>
                                                 <option value="2" >Gastos de Personal</option>
+                                                <option value="3" >Banco</option>
+                                                <option value="4" >Proveedor</option>
+                                                <option value="5" >Almuerzo</option>
                                                 <option value="Otro" >Otro</option>
                                             </select>
                                             <div class="invalid-feedback">
@@ -223,6 +226,12 @@
                                 $expense = 'Gastos Operativos';
                             } elseif ($e->expense_type == 2){
                                 $expense = 'Gastos Personal';
+                            } elseif ($e->expense_type == 3){
+                                $expense = 'Banco';
+                            } elseif ($e->expense_type == 4){
+                                $expense = 'Proveedor';
+                            } elseif ($e->expense_type == 5){
+                                $expense = 'Almuerzo';
                             }
                             @endphp
                             <tr>
