@@ -30,8 +30,12 @@ Route::get('/editandomedios', [App\Http\Controllers\Cash\CashRegisterController:
 Route::post('updatepayment', [App\Http\Controllers\Cash\CashRegisterController::class, 'updatePayment'])->name('updatepayment');
 Route::get('/editandogastos', [App\Http\Controllers\Cash\CashRegisterController::class, 'editExpense'])->name('editexpense');
 Route::post('updateexpense', [App\Http\Controllers\Cash\CashRegisterController::class, 'updateExpense'])->name('updateexpense');
+Route::get('/editandopersonal', [App\Http\Controllers\Cash\CashRegisterController::class, 'editPersonal'])->name('editpersonal');
+Route::post('updatepersonal', [App\Http\Controllers\Cash\CashRegisterController::class, 'updatePersonal'])->name('updatepersonal');
 Route::get('/deletepayment', [App\Http\Controllers\Cash\CashRegisterController::class, 'deletePayment'])->name('paymentdelete');
 Route::get('/deleteexpense', [App\Http\Controllers\Cash\CashRegisterController::class, 'deleteExpense'])->name('expensedelete');
+Route::get('/deletepersonal', [App\Http\Controllers\Cash\CashRegisterController::class, 'deletePersonal'])->name('personaldelete');
+Route::get('/deleteandoprofits', [App\Http\Controllers\Cash\CashRegisterController::class, 'deleteProfit'])->name('deleteprofit');
 Route::get('registrandogananciass', [App\Http\Controllers\Cash\CashRegisterController::class, 'inputProfits'])->name('profitregister');
 
 //consultar cierre de caja
@@ -43,3 +47,8 @@ Route::get('/eliminandoganacias', [App\Http\Controllers\Cash\CashConsultControll
 //reportes
 Route::get('/cashreport', [App\Http\Controllers\Report\CashReportController::class, 'index'])->name('cashreport');
 Route::get('/sellerreport', [App\Http\Controllers\Report\SellerReportController::class, 'index'])->name('sellerreport');
+
+//Obervaciones
+Route::post('/observacioncaja', [App\Http\Controllers\Cash\CashRegisterController::class, 'inputObservation'])->name('registerobservation');
+Route::post('/cerrandotienda', [App\Http\Controllers\Cash\CashRegisterController::class, 'closeStore'])->name('closestore');
+Route::get('/elimandocierredetienda', [App\Http\Controllers\Cash\CashRegisterController::class, 'deleteCloseStore'])->name('closestoredelete');

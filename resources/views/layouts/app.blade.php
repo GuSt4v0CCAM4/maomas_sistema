@@ -109,6 +109,7 @@
         </div>
     </nav>
     <main id="content" class="p-4 p-md-5 pt-5">
+
         @yield('content')
     </main>
 </div>

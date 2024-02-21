@@ -372,7 +372,16 @@ a[data-toggle="collapse"] {
 .spanGanancias{
     font-size: 1rem;
 }
-
+#cash-register-form {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    max-width: 600px; /* Ajusta el ancho máximo según tus preferencias */
+    background-color: #dd0f29; /* Ajusta el color de fondo según tus preferencias */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Agrega sombra según tus preferencias */
+}
 
 
 

@@ -7,6 +7,8 @@ use App\Models\CashRegister;
 use App\Models\DetailsRegister;
 use App\Models\ExpenseRegister;
 use App\Models\PaymentRegister;
+use App\Models\PersonalExpense;
+use App\Models\ProfitObservation;
 use App\Models\ProfitRegister;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -23,8 +25,13 @@ class CashRegisterController extends Controller
         $today = date('Y-m-d');//obtenemos la fecha de hoy
         $Date = $request->input('date', Cookie::get('Date', $today)); //obtenemos la fecha de la cookie
         $selectedStore= $request->input('store', Cookie::get('selectedStore', '0'));
+        $selectedUser = $request->input('user', Cookie::get('selectedUser', '0'));
         Cookie::queue('Date', $Date, 1440); //guardamos la fecha en la cookie
         Cookie::queue('selectedStore', $selectedStore, 1440); //guardamos la tienda en la cookie
+        Cookie::queue('selectedUser', $selectedUser, 1440);
+        $users = DB::table('users')
+            ->select('id','name')
+            ->get();
         if ($Date != '0' && $selectedStore != '0') { //verificamos si los valores sean diferentes a 0
             $valor_total = DB::table('sales_amount') //consultamos si hay un registro con la fecha y la tienda
                 ->select('amount', 'id_reg')
@@ -42,29 +49,42 @@ class CashRegisterController extends Controller
                 ->select('expenses.*', 'cash_details.amount', 'users.name')
                 ->where('id_store', $selectedStore)
                 ->whereDate('date', $Date)->get();
+            $table_personal = DB::table('personal_expense')
+                ->join('cash_details', 'personal_expense.id_cash', '=', 'cash_details.id_reg')
+                ->join('users','personal_expense.id_user', '=', 'users.id' )
+                ->select('personal_expense.*', 'cash_details.amount', 'users.name')
+                ->where('cash_details.id_store', $selectedStore)
+                ->whereDate('cash_details.date', $Date)->get();
             $verificar_cierre = DB::table('profits')
                 ->select()
                 ->where('id_store', $selectedStore)
                 ->whereDate('date', $Date)->get();
+            $verificar_tiendacerrada = DB::table('profit_observations')
+                ->join('profits', 'profit_observations.id_profit', '=', 'profits.id_reg')
+                ->select('profit_observations.*')
+                ->where('profits.id_store', $selectedStore)
+                ->whereDate('profits.date', $Date)->get();
             $cierre = 0;
             if (count($verificar_cierre) > 0) {
                 $cierre = 1;
             }
             if (count($valor_total) > 0) {
                 $existe = 'existe';
-                return view('cash.register', ['Date' => $Date, 'selectedStore' => $selectedStore,
-                    'existe' => $existe, 'valor_total' => $valor_total, 'table_payment' => $table_payment,
-                    'table_expense' => $table_expense, 'cierre' => $cierre]);
+                return view('cash.register', ['selectedUser' => $selectedUser,'Date' => $Date, 'selectedStore' => $selectedStore,
+                    'close_store'=> $verificar_tiendacerrada, 'existe' => $existe, 'valor_total' => $valor_total, 'table_payment' => $table_payment,
+                    'table_expense' => $table_expense, 'table_personal' => $table_personal, 'cierre_caja' => $verificar_cierre,
+                    'cierre' => $cierre, 'users' => $users]);
             } else {
                 $noexiste = 'noexiste';
-                return view('cash.register', ['Date' => $Date, 'selectedStore' => $selectedStore,
-                    'noexiste' => $noexiste, 'table_payment' => $table_payment, 'table_expense' => $table_expense]);
+                return view('cash.register', ['selectedUser' => $selectedUser,'Date' => $Date, 'selectedStore' => $selectedStore,
+                    'close_store'=> $verificar_tiendacerrada,'noexiste' => $noexiste, 'table_payment' => $table_payment,
+                    'table_expense' => $table_expense, 'table_personal' => $table_personal, 'users' => $users]);
             }
 
         }
         $warning = 'Por favor seleccione una fecha y una tienda';
 
-        return view('cash.register', ['Date' => $Date, 'selectedStore' => $selectedStore, 'warning' => $warning]);
+        return view('cash.register', ['selectedUser' => $selectedUser,'Date' => $Date, 'selectedStore' => $selectedStore, 'warning' => $warning, 'users' => $users]);
     }
     public function inputVenta(Request $request)
     {
@@ -145,11 +165,27 @@ class CashRegisterController extends Controller
                 'id_user' => auth()->user()->id,
                 'id_store' => $selectedStore,
             ]);
-            $id_cash = $detailsRegister->id;
-            ExpenseRegister::create([
-                'id_cash' => $id_cash,
-                'expense_type' => $request->input('expense'),
-            ]);
+            $id_cash = $detailsRegister->id; //obtenemos el id del ultimo registro hecho en cash_detail
+            $expense = $request->input('expense');
+            if ($expense > 300 && $expense < 400){
+                $u = $expense % 10;
+                $d = floor(($expense % 100) / 10);
+                $c = floor($expense / 100);
+                if ($d == 0){
+                    $expense_register = $u;
+                } else {
+                    $expense_register = $d.$u;
+                }
+                PersonalExpense::create([
+                    'id_cash' => $id_cash,
+                    'id_user' => $expense_register,
+                ]);
+            }else{
+                ExpenseRegister::create([
+                    'id_cash' => $id_cash,
+                    'expense_type' => $request->input('expense'),
+                ]);
+            }
             return redirect()->route('cashregister')->with('success', 'Ventas registradas con exito!');
         }catch (\Exception $e){
             return redirect()->route('cashregister')->with('error', 'Ocurrio un error al registrar las ventas!');
@@ -190,6 +226,40 @@ class CashRegisterController extends Controller
             return redirect()->route('cashregister')->with('error', 'Ocurrio un error al actualizar los metodos de pago!');
         }
     }
+    public function editPersonal(Request $request)
+    {
+        $id = request()->input('id');
+        $users = DB::table('users')
+            ->select('id','name')
+            ->get();
+        $datos = DB::table('personal_expense')
+            ->join('cash_details', 'personal_expense.id_cash', '=', 'cash_details.id_reg')
+            ->join('users','personal_expense.id_user', '=', 'users.id' )
+            ->select('personal_expense.*', 'cash_details.amount', 'cash_details.date', 'personal_expense.id_user', 'users.name' , 'users.id')
+            ->where('id_cash', $id)
+            ->get();
+        return view('cash.personaledit', ['datos' => $datos, 'users' => $users]);
+    }
+    public function updatePersonal(Request $request)
+    {
+        $validatedData = $request->validate([
+            'amount' => 'required',
+            'seller' => 'required',
+        ]);
+        try {
+            $amount = $request->input('amount');
+            $id = $request->input('id');
+            DB::table('cash_details')
+                ->where('id_reg', $id)
+                ->update(['amount' => $amount]);
+            DB::table('personal_expense')
+                ->where('id_cash', $id)
+                ->update(['id_user' => $request->input('seller')]);
+            return redirect()->route('cashregister')->with('success', 'Gastos Personal actualizados con exito!');
+        } catch (\Exception $e) {
+            return redirect()->route('cashregister')->with('error', 'Ocurrio un error al actualizar los gastos de Personal!');
+        }
+    }
     public function editExpense(Request $request)
     {
         $id = request()->input('id');
@@ -225,6 +295,7 @@ class CashRegisterController extends Controller
             return redirect()->route('cashregister')->with('error', 'Ocurrio un error al actualizar los gastos!');
         }
     }
+
     public function deletePayment(Request $request)
     {
         $id = request()->input('id');
@@ -247,10 +318,22 @@ class CashRegisterController extends Controller
         }
         return redirect()->route('cashregister')->with('success', 'Se elimino el registro correctamente!!');
     }
+    public function deletePersonal(Request $request)
+    {
+        $id = request()->input('id');
+        try{
+            DB::table('personal_expense')->where('id_cash', $id)->delete();
+            DB::table('cash_details')->where('id_reg', $id)->delete();
+        }catch (\Exception $e){
+            return redirect()->route('cashregister')->with('error', 'Ocurrio un error a la hora de eliminar el registro');
+        }
+        return redirect()->route('cashregister')->with('success', 'Se elimino el registro correctamente!!');
+    }
     public function inputProfits(Request $request)
     {
         try{
             $balance = $request->input('balance');
+            $user = $request->input('user', Cookie::get('selectedUser', '0'));
             $date = $request->input('date');
             $store = $request->input('store');
             $profit = $request->input('profit');
@@ -308,7 +391,7 @@ class CashRegisterController extends Controller
                 'expense' => $expense,
                 'profit' => $profit,
                 'date' => $date,
-                'id_user' => auth()->user()->id,
+                'id_user' => $user,
                 'id_store' => $store,
                 'balance' => $balance,
             ]);
@@ -316,5 +399,72 @@ class CashRegisterController extends Controller
         }catch (\Exception $e){
             return redirect()->route('cashregister')->with('error', 'Ocurrio un error al registrar el cierre de caja, el error es: ' . $e->getMessage() . ' linea: ' . $e->getLine() . 'payment=' . $expense);
         }
+    }
+    public function deleteProfit(Request $request)
+    {
+        $id = request()->input('id');
+        try{
+            DB::table('profits')->where('id_reg', $id)->delete();
+        }catch (\Exception $e){
+            return redirect('cashregister')->with('error', 'Ocurrio un error a la hora de eliminar el registro');
+        }
+        return redirect('cashregister')->with('success', 'Se elimino el registro correctamente!!');
+    }
+    public function inputObservation(Request $request)
+    {
+        try{
+            $Date = $request->cookie('Date', '0');//obtenemos la fecha de la cookie
+            $selectedStore = $request->input('store', Cookie::get('selectedStore', '0'));
+            $obervation = $request->input('observation');
+            $registro = DB::table('profits')->where('id_store', $selectedStore)
+                ->where('date', $Date)->get();
+            $id = $registro->first()->id_reg;
+            ProfitObservation::create([
+                'id_profit' => $id,
+                'observation' => $obervation,
+            ]);
+            return redirect()->route('cashregister')->with('success', 'Observacion agregado con exito!!');
+        }catch (\Exception $e){
+            return redirect()->route('cashregister')->with('error', 'Ocurrio un error al agregar la observacion ' . $e->getMessage() . ' linea: ' . $e->getLine() . 'payment=' );
+        }
+    }
+    public function closeStore(Request $request)
+    {
+        try{
+            $Date = $request->cookie('Date', '0');//obtenemos la fecha de la cookie
+            $selectedStore = $request->input('store', Cookie::get('selectedStore', '0'));
+            $selectedUser = $request->input('user', Cookie::get('selectedUser', '0'));
+            $observation = $request->input('observation');
+            $obervation = 'CIERRE - ' . $observation;
+            $registrando = ProfitRegister::create([
+                'payments' => '0|0|0|0|0',
+                'sale' => 0,
+                'expense' => 0,
+                'profit' => 0,
+                'date' => $Date,
+                'id_user' => $selectedUser,
+                'id_store' => $selectedStore,
+                'balance' => 0,
+            ]);
+            $id = $registrando->id;
+            ProfitObservation::create([
+                'id_profit' => $id,
+                'observation' => $obervation,
+            ]);
+            return redirect()->route('cashregister')->with('success', 'Tienda cerrada con exito!!');
+        }catch (\Exception $e){
+            return redirect()->route('cashregister')->with('error', 'Ocurrio un error al cerrar la tienda' . $e->getMessage() . ' linea: ' . $e->getLine() . 'payment=' );
+        }
+    }
+    public function deleteCloseStore(Request $request)
+    {
+        $id = request()->input('id');
+        try {
+            DB::table('profit_observations')->where('id_profit', $id)->delete();
+            DB::table('profits')->where('id_reg', $id)->delete();
+        }catch (\Exception $e){
+            return redirect('cashregister')->with('error', 'Ocurrio un error a la hora de eliminar el registro');
+        }
+        return redirect('cashregister')->with('success', 'Se elimino el registro correctamente!!');
     }
 }

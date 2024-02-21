@@ -45,7 +45,7 @@
 
         </form>
         <div style="width: 220px; margin: 0 auto; text-align: center;" class="mt-4">
-            <h4>Gastos</h4>
+            <h4>Ventas totales</h4>
             <canvas id="myChart"></canvas>
         </div>
 
