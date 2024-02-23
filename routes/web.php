@@ -52,3 +52,6 @@ Route::get('/sellerreport', [App\Http\Controllers\Report\SellerReportController:
 Route::post('/observacioncaja', [App\Http\Controllers\Cash\CashRegisterController::class, 'inputObservation'])->name('registerobservation');
 Route::post('/cerrandotienda', [App\Http\Controllers\Cash\CashRegisterController::class, 'closeStore'])->name('closestore');
 Route::get('/elimandocierredetienda', [App\Http\Controllers\Cash\CashRegisterController::class, 'deleteCloseStore'])->name('closestoredelete');
+
+//infoseller
+Route::get('/detallevendedores', [App\Http\Controllers\Report\SellerDetailsController::class, 'index'])->name('sellerdetails');

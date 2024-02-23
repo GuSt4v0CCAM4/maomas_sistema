@@ -33,21 +33,21 @@ class SellerReportController extends Controller
             if ($selectedDate == '1'){
                 $ranking = DB::table('users')
                     ->join('profits', 'users.id', '=', 'profits.id_user')
-                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.profit) as total, SUM(profits.balance) as balance'))
+                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
                     ->whereDate('profits.date', $currentDate)
                     ->groupBy('users.id')
                     ->get();
             } else if ($selectedDate == '2'){
                 $ranking = DB::table('users')
                     ->join('profits', 'users.id', '=', 'profits.id_user')
-                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.profit) as total, SUM(profits.balance) as balance'))
+                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
                     ->whereBetween('profits.date', [$firstDayWeek, $lastDayWeek])
                     ->groupBy('users.id')
                     ->get();
             } else if ($selectedDate == '3'){
                 $ranking = DB::table('users')
                     ->join('profits', 'users.id', '=', 'profits.id_user')
-                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.profit) as total, SUM(profits.balance) as balance'))
+                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
                     ->whereBetween('profits.date', [$firstDayMonth, $lastDayMont])
                     ->groupBy('users.id')
                     ->get();
@@ -57,14 +57,14 @@ class SellerReportController extends Controller
                     $endDate = $request->endDate;
                     $ranking = DB::table('users')
                         ->join('profits', 'users.id', '=', 'profits.id_user')
-                        ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.profit) as total, SUM(profits.balance) as balance'))
+                        ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
                         ->whereBetween('profits.date', [$startDate, $endDate])
                         ->groupBy('users.id')
                         ->get();
                 } else {
                     $ranking = DB::table('users')
                     ->join('profits', 'users.id', '=', 'profits.id_user')
-                        ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.profit) as total, SUM(profits.balance) as balance'))
+                        ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
                         ->groupBy('users.id')
                         ->get();
                 }

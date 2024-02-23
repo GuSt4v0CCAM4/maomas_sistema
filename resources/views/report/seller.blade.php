@@ -48,7 +48,6 @@
             <h4>Ventas totales</h4>
             <canvas id="myChart"></canvas>
         </div>
-
         <table class="table mt-5 table-striped-columns">
             <thead class="table-dark">
             <tr>
@@ -56,6 +55,7 @@
                 <th scope="col">Vendedor</th>
                 <th scope="col">Ventas</th>
                 <th scope="col">Balance</th>
+                <th scope="col"><a href="{{route('sellerdetails')}}">Ver Detalles</a></th>
             </tr>
 
             </thead>
@@ -67,14 +67,20 @@
             @if(isset($ranking) && $ranking->count() > 0)
                 @foreach($ranking as $r)
                     @php
-                    $totales[] = $r->total;
+                    $ingreso = abs($r->expense) + abs($r->sale);
+                    $totales[] = $ingreso;
                     $nombres[] = $r->name;
                     @endphp
                     <tr>
                         <td>{{$r->id}}</td>
                         <td>{{$r->name}}</td>
-                        <td>S/. {{$r->total}}</td>
-                        <td>S/. {{$r->balance}}</td>
+                        <td>S/. {{abs($r->expense) + abs($r->sale)}}</td>
+                        @if($r->balance > 0)
+                            <td class="bg-danger">S/. {{abs($r->balance)}}</td>
+                        @else
+                        <td>S/. {{abs($r->balance)}}</td>
+                        @endif
+
                     </tr>
                 @endforeach
              @endif

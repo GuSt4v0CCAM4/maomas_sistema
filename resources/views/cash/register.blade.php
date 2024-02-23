@@ -427,8 +427,11 @@ style="background-color: #f0f0f0;"-->
                                                                                class="btn btn-danger" style="padding: 0.1rem 0.2rem; font-size: 0.8rem;">
                                         Eliminar
                                     </button>
+                                    @if(isset($close_store) && $close_store->count() > 0)
+                                        <h5>Ya se anoto una observacion en este dia</h5>
+                                    @else
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#modalObservation" class="btn btn-warning" >OBSERVACION</button>
-
+                                    @endif
                             @endif
                         @endif
                     </div>
