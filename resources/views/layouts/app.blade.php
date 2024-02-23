@@ -47,9 +47,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('/cashconsult')}}"><i class="bi bi-caret-right-fill"></i> Consultar Caja</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url('/sellerreport')}}"><i class="bi bi-caret-right-fill"></i> Ranking de Trabajadores</a>
-                            </li>
                         </ul>
                     </div>
                 </li>
@@ -60,9 +57,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('/cashreport')}}">Informe</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url('/sellerreport')}}"> Ventas de Trabajadores</a>
+                </li>
                 <li class="nav-item mb-lg-5">
                     <a class="nav-link" href="#">Calendario</a>
                 </li>
+
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
