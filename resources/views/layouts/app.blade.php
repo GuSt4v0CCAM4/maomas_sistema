@@ -58,7 +58,7 @@
                     <a class="nav-link" href="{{url('/cashreport')}}">Informe</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url('/sellerreport')}}"> Ventas de Trabajadores</a>
+                    <a class="nav-link" href="{{url('/detallevendedores')}}"> Reporte de Ventas</a>
                 </li>
                 <li class="nav-item mb-lg-5">
                     <a class="nav-link" href="#">Calendario</a>

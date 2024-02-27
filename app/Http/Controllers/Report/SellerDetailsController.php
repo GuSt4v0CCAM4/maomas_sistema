@@ -33,6 +33,12 @@ class SellerDetailsController extends Controller
             return view('report.sellerdetails', ['selectedDate'=>$selectedDate, 'users'=>$users]);
         }else{
             if ($selectedDate == '1'){
+                $ranking = DB::table('users')
+                    ->join('profits', 'users.id', '=', 'profits.id_user')
+                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
+                    ->whereDate('profits.date', $currentDate)
+                    ->groupBy('users.id')
+                    ->get();
                 $data_profit = DB::table('profits')
                     ->join('users', 'users.id', '=', 'profits.id_user')
                     ->select('users.id', 'users.name',
@@ -67,7 +73,14 @@ class SellerDetailsController extends Controller
                             return [$fecha => ['name' => '', 'date' => $fecha, 'profit' => 0, 'store' => 0]];
                         })->all();
                 }
+
             } else if ($selectedDate == '2'){
+                $ranking = DB::table('users')
+                    ->join('profits', 'users.id', '=', 'profits.id_user')
+                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
+                    ->whereBetween('profits.date', [$firstDayWeek, $lastDayWeek])
+                    ->groupBy('users.id')
+                    ->get();
                 $data_profit = DB::table('profits')
                     ->join('users', 'users.id', '=', 'profits.id_user')
                     ->select('users.id', 'users.name',
@@ -104,6 +117,12 @@ class SellerDetailsController extends Controller
                 }
 
             } else if ($selectedDate == '3'){
+                $ranking = DB::table('users')
+                    ->join('profits', 'users.id', '=', 'profits.id_user')
+                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
+                    ->whereBetween('profits.date', [$firstDayMonth, $lastDayMont])
+                    ->groupBy('users.id')
+                    ->get();
                 $data_profit = DB::table('profits')
                     ->join('users', 'users.id', '=', 'profits.id_user')
                     ->select('users.id', 'users.name',
@@ -117,6 +136,7 @@ class SellerDetailsController extends Controller
                 $matriz_datos = [];
                 $fechas_unicas = $data_profit->pluck('date')->unique();
                 foreach ($data_profit as  $value) {
+
                     $id_user = $value->id;
                     $date = $value->date;
 
@@ -144,6 +164,12 @@ class SellerDetailsController extends Controller
                 if (@isset($request->inicioFecha) && isset($request->finFecha)) {
                     $startDate = $request->inicioFecha;
                     $endDate = $request->finFecha;
+                    $ranking = DB::table('users')
+                        ->join('profits', 'users.id', '=', 'profits.id_user')
+                        ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
+                        ->whereBetween('profits.date', [$startDate, $endDate])
+                        ->groupBy('users.id')
+                        ->get();
                     $data_profit = DB::table('profits')
                         ->join('users', 'users.id', '=', 'profits.id_user')
                         ->select('users.id', 'users.name',
@@ -181,6 +207,11 @@ class SellerDetailsController extends Controller
                     }
                 }
             } else {
+                $ranking = DB::table('users')
+                    ->join('profits', 'users.id', '=', 'profits.id_user')
+                    ->select('users.*', 'profits.profit', 'profits.balance', DB::raw('SUM(profits.sale) as sale, SUM(profits.expense) as expense, SUM(profits.balance) as balance'))
+                    ->groupBy('users.id')
+                    ->get();
                 $data_profit = DB::table('profits')
                     ->join('users', 'users.id', '=', 'profits.id_user')
                     ->select('users.id', 'users.name',
@@ -219,7 +250,8 @@ class SellerDetailsController extends Controller
             foreach ($matriz_datos as &$usuario) {
                 ksort($usuario['datos']);
             }
-            return view('report.sellerdetails', ['selectedDate'=>$selectedDate, 'users'=>$users, 'matriz_datos' => $matriz_datos]);
+            return view('report.sellerdetails', ['selectedDate'=>$selectedDate, 'users'=>$users, 'matriz_datos' => $matriz_datos,
+                'ranking' => $ranking]);
         }
 
     }
