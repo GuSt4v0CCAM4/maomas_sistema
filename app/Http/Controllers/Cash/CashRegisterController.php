@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CashRegister;
 use App\Models\DetailsRegister;
 use App\Models\ExpenseRegister;
+use App\Models\OtherExpenseRegister;
 use App\Models\PaymentRegister;
 use App\Models\PersonalExpense;
 use App\Models\ProfitObservation;
@@ -181,10 +182,26 @@ class CashRegisterController extends Controller
                     'id_user' => $expense_register,
                 ]);
             }else{
+
                 ExpenseRegister::create([
                     'id_cash' => $id_cash,
                     'expense_type' => $request->input('expense'),
                 ]);
+                if ($request->input('expense')== 99 ){
+                    $details_r = $request-> input('otherInput');
+                    $other = "Gastos Operativos - ".$details_r;
+                    OtherExpenseRegister::create([
+                        'id_expense' => $id_cash,
+                        'details' => $other,
+                    ]);
+                } elseif ($request->input('expense')== 199 ){
+                    $details_r = $request-> input('otherInput');
+                    $other = "Gastos Administrativos - ".$details_r;
+                    OtherExpenseRegister::create([
+                        'id_expense' => $id_cash,
+                        'details' => $other,
+                    ]);
+                }
             }
             return redirect()->route('cashregister')->with('success', 'Ventas registradas con exito!');
         }catch (\Exception $e){

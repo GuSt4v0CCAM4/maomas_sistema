@@ -276,6 +276,7 @@
         })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @if(isset($matriz_datos))
     <script>
         // Inyecta los datos de Laravel en tu script de Chart.js
         var matriz_datos = @json($matriz_datos);
@@ -337,6 +338,7 @@
             }
         });
     </script>
+    @endif
     <script>
         function getRandomColor() {
             const red = Math.floor(Math.random() * 256);

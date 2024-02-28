@@ -165,7 +165,7 @@ style="background-color: #f0f0f0;"-->
                                     <div class="row g-2">
                                         <div class="col-md-6 mb-3">
                                             <label for="cash" class="label">Tipo:</label>
-                                            <select class="form-select" id="cash" name="expense" required>
+                                            <select class="form-select" id="cash" name="expense" required onchange="showHideOtherInput(this)">
                                                 <option selected disabled value="0">--Seleccione una opción--</option>
                                                 <optgroup label="Gastos Operativos">
                                                     <option value="1">Luz/Agua/Telefono</option>
@@ -204,6 +204,12 @@ style="background-color: #f0f0f0;"-->
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-12 mb-3" id="otherInputContainer" style="display: none;">
+                                            <label for="otherInput" class="label">Otros Detalles:</label>
+                                            <input type="text" class="form-control" id="otherInput" name="otherInput">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" style="display: none;">Enviar</button>
+
                                     </div>
                                 </form>
                             </div>
@@ -512,4 +518,18 @@ style="background-color: #f0f0f0;"-->
                     this.form.submit();
                 })
             </script>
+        <script>
+            function showHideOtherInput(selectElement) {
+                var otherInputContainer = document.getElementById('otherInputContainer');
+                var otherInput = document.getElementById('otherInput');
+
+                if (selectElement.value === '99' || selectElement.value === '199') {
+                    otherInputContainer.style.display = 'block';
+                    otherInput.required = true;
+                } else {
+                    otherInputContainer.style.display = 'none';
+                    otherInput.required = false;
+                }
+            }
+        </script>
 @endsection
