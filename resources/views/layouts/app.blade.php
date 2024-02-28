@@ -55,13 +55,10 @@
                 </li> -->
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url('/cashreport')}}">Informe</a>
+                    <a class="nav-link" href="{{url('/cashreport')}}">Informe de Ingresos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('/detallevendedores')}}"> Reporte de Ventas</a>
-                </li>
-                <li class="nav-item mb-lg-5">
-                    <a class="nav-link" href="#">Calendario</a>
                 </li>
 
                 @guest
@@ -89,7 +86,13 @@
                 </li>
                 @endguest
             </ul>
+            @php
+            $events = \App\Models\ProfitRegister::all(['date', 'balance'])->toJson();
+            @endphp
 
+            <div style="width: 220px; margin: 0 auto;">
+                <div id="calendar"></div>
+            </div>
             <!--
                         <div class="mb-5">
                             <h3 class="h6">Subscribe for newsletter</h3>
@@ -114,6 +117,33 @@
         @yield('content')
     </main>
 </div>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var events = {!! $events !!};
+
+        var eventsArray = [];
+
+        for (var i = 0; i < events.length; i++) {
+            eventsArray.push({
+                title: 'Balance: ' + events[i].balance,
+                start: events[i].date,
+                backgroundColor: 'green',
+                borderColor: 'green'
+            });
+        }
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            events: eventsArray,
+            initialView: 'dayGridMonth'
+        });
+
+        calendar.render();
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var fullHeight = function() {

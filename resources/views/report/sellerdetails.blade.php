@@ -11,10 +11,8 @@
                     <div class="form-floating">
                         <select class="form-select" id="date" name="date">
                             <option selected disabled>--Seleccione un rango--</option>
-                            <option value="1" {{ $selectedDate == '1' ? 'selected' : '' }}>Hoy</option>
                             <option value="2" {{ $selectedDate == '2' ? 'selected' : '' }}>Semana</option>
                             <option value="3" {{ $selectedDate == '3' ? 'selected' : '' }}>Mensual</option>
-                            <option value="4" {{ $selectedDate == '4' ? 'selected' : '' }}>Personalizado</option>
                         </select>
                         <label for="date">Seleccione la fecha</label>
                     </div>
@@ -23,29 +21,35 @@
                 <input type="hidden" id="endDateHidden" name="endDate">
             </div>
         </form>
-        <div id="customRange" style="display: none;">
-            <form method="GET" action="{{ route('sellerdetails') }}">
-                <div class="col-md">
-                    <select class="form-select" id="date" name="date" type="hidden">
-                        <option selected disabled>--Seleccione un rango--</option>
-                        <option value="4" selected>Personalizado</option>
-                    </select>
-                    <div class="form-floating">
-                        <input class="form-control" type="date" value="" id="startDate" name="inicioFecha"
-                               aria-label="Floating label select example">
-                        <label for="startDate">Inicio:</label>
-                    </div>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Fecha Personalizada
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <form method="GET" action="{{ route('sellerdetails') }}">
+                        <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" type="date" value="" id="startDate" name="inicioFecha"
+                                       aria-label="Floating label select example">
+                                <label for="startDate">Inicio:</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" type="date" value="" id="endDate" name="finFecha"
+                                       aria-label="Floating label select example">
+                                <label for="endDate">Fin:</label>
+                            </div>
+                        </div>
+                        </div>
+                        <button class="btn btn-primary mt-2" type="submit"  >Consultar</button>
+                    </form>
                 </div>
-
-                <div class="col-md">
-                    <div class="form-floating">
-                        <input class="form-control" type="date" value="" id="endDate" name="finFecha"
-                               aria-label="Floating label select example">
-                        <label for="endDate">Fin:</label>
-                    </div>
-                </div>
-                <button class="btn btn-primary" type="submit"  >Consultar</button>
-            </form>
+            </div>
         </div>
         @php
             $totales = [];
@@ -89,6 +93,7 @@
         }
     }
 
+
     @endphp
 @endif
 
@@ -105,12 +110,16 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if(isset($matriz_datos))
                 @foreach($matriz_datos as $id_user => $vendedor)
                     <tr>
                         <td>{{ $name_label[$id_user] }}</td>
                         <td>S/. {{ array_sum(array_column($vendedor['datos'], 'profit')) }}</td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>No hay Datos </tr>
+                @endif
                 </tbody>
             </table>
         </div>
@@ -126,6 +135,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if(isset($matriz_datos))
                 @foreach($matriz_datos as $id_user => $vendedor)
                     @php
                         $datosConNombre = array_filter($vendedor['datos'], function($dato) {
@@ -137,6 +147,9 @@
                         <td>S/. {{ array_sum(array_column($vendedor['datos'], 'profit')) / count($datosConNombre) }} al dia</td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>No hay Datos </tr>
+                @endif
                 </tbody>
             </table>
         </div>
@@ -153,9 +166,13 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if(isset($matriz_datos[1]['datos']))
                 @foreach($matriz_datos[1]['datos'] as $fecha => $datos)
                     <tr>
-                        <td>{{ $fecha }}</td>
+                        @php
+                            $fecha_formateada = strftime("%A %d de %B", strtotime($fecha));
+                        @endphp
+                        <td>{{ $fecha_formateada }}</td>
                         @php
                             $ventasFecha = 0;
                             for ($i = 0; $i < count($matriz_datos); $i++) {
@@ -172,13 +189,17 @@
                         <td>S/. {{ $promedioVentasFecha }} por Tienda</td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>No hay Datos </tr>
+                @endif
                 </tbody>
             </table>
         </div>
         <div class="col-md-6">
-            <table>
+            <h3 class="text-center">Dias de Máximos y Mínimos</h3>
+            <table class="table mt-2 table-striped-columns">
                 <caption>Días de Máximas y Mínimas Ventas por Trabajador</caption>
-                <thead>
+                <thead class="table-dark">
                 <tr>
                     <th>Trabajador</th>
                     <th>Fecha Máxima</th>
@@ -188,7 +209,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($matriz_datos as $id_user => $vendedor)
+                @if(isset($matriz_profit))
+                @foreach($matriz_profit as $id_user => $vendedor)
                     <tr>
                         <td>{{ $name_label[$id_user] }}</td>
                         @php
@@ -200,16 +222,47 @@
                             );
                             $maxVentasIndex = array_search(max($ventas), $ventas);
                             $minVentasIndex = array_search(min($ventas), $ventas);
-                            
+
                             $profitMax = $ventas[$maxVentasIndex];
                             $profitMin = $ventas[$minVentasIndex];
-                        @endphp
-                        <td></td>
-                        <td>{{ $profitMax }}</td>
-                        <td></td>
-                        <td>{{ $profitMin }}</td>
+                            $dateMax = array_keys($vendedor['datos'])[$maxVentasIndex];
+                            $dateMin = array_keys($vendedor['datos'])[$minVentasIndex];
+                            $fecha_formateadaM = strftime("%A %d de %B", strtotime($dateMax));
+                            $fecha_formateadam = strftime("%A %d de %B", strtotime($dateMin));
+                            @endphp
+                        <td>{{$fecha_formateadaM}}</td>
+                        <td>S/. {{ $profitMax }}</td>
+                        <td>{{$fecha_formateadam}}</td>
+                        <td>S/. {{ $profitMin }}</td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>No hay Datos </tr>
+                @endif
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            {{-- Punto 7: Comparación de Tiendas --}}
+            <table class="table mt-2 table-striped-columns">
+                <caption>Comparación de Ventas por Tienda</caption>
+                <thead class="table-dark">
+                <tr>
+                    <th>Tienda</th>
+                    <th>Ventas Totales</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if(isset($matriz_store))
+                @foreach($matriz_store as $id_store => $tienda)
+                    <tr>
+                        <td>{{ $id_store }}</td>
+                        <td>S/. {{ array_sum(array_column($tienda['datos'], 'profit')) }}</td>
+                    </tr>
+                @endforeach
+                @else
+                    <tr>No hay Datos </tr>
+                @endif
                 </tbody>
             </table>
         </div>
@@ -218,40 +271,9 @@
 
     <script>
 
-        if (document.getElementById('date').value === '4') {
-            document.getElementById('customRange').style.display = 'flex';
-        }
         document.getElementById('date').addEventListener('change', function() {
-
-            if (this.value === '4') {
-                document.getElementById('customRange').style.display = 'flex';
-            } else {
-                document.getElementById('customRange').style.display = 'none';
-                this.form.submit();
-            }
-
-        });
-
-        document.getElementById('store').addEventListener('change', function() {
             this.form.submit();
-        });
-
-        document.getElementById('customRange').addEventListener('change', function () {
-            // Obtener los valores de startDate y endDate
-            var startDateValue = document.getElementById('startDate').value;
-            var endDateValue = document.getElementById('endDate').value;
-
-            // Asignar los valores a campos ocultos en el formulario
-            document.getElementById('startDateHidden').value = startDateValue;
-            document.getElementById('endDateHidden').value = endDateValue;
-
-            // Enviar el formulario
-            this.form.submit();
-        });
-
-
-
-        // Muestra u oculta el campo de rango de fechas según la selección del usuari
+        })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

@@ -125,7 +125,7 @@ style="background-color: #f0f0f0;"-->
 
                     <div class="container ">
                         <div class="row">
-                            <div class="col-md-6" style="background-color: #bde0fe; border-radius: 15px; padding: 20px;">
+                            <div class="col-md-6" style="background-color: #cdb4db; border-radius: 15px; padding: 20px;">
                                 <form method="POST"  action="{{ route('registerpayment') }}">
                                     @csrf
                                     <h4 class="text-center mb-2 mt-2">Registro de Pago</h4>
@@ -173,6 +173,7 @@ style="background-color: #f0f0f0;"-->
                                                     <option value="3">Transporte</option>
                                                     <option value="4">Limpieza</option>
                                                     <option value="5">Devoluciones</option>
+                                                    <option value="6">Proveedores</option>
                                                     <option value="99">Otros</option>
                                                     <!-- Agrega más subtipos si es necesario -->
                                                 </optgroup>
@@ -276,6 +277,8 @@ style="background-color: #f0f0f0;"-->
                                 $expense = 'Gastos Operativos - Limpieza';
                             } elseif ($e->expense_type == 5){
                                 $expense = 'Gastos Operativos - Devoluciones';
+                            } elseif ($e->expense_type == 6){
+                                $expense = 'Gastos Operativos - Proveedores';
                             } elseif ($e->expense_type == 99){
                                 $expense = 'Gastos Operativos - Otros';
                             } elseif ($e->expense_type == 101){

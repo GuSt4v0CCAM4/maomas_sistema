@@ -10,43 +10,44 @@
                     <div class="form-floating">
                         <select class="form-select" id="date" name="date">
                             <option selected disabled>--Seleccione un rango--</option>
-                            <option value="1" {{ $selectedDate == '1' ? 'selected' : '' }}>Hoy</option>
                             <option value="2" {{ $selectedDate == '2' ? 'selected' : '' }}>Semana</option>
                             <option value="3" {{ $selectedDate == '3' ? 'selected' : '' }}>Mensual</option>
-                            <option value="4" {{ $selectedDate == '4' ? 'selected' : '' }}>Personalizado</option>
                         </select>
                         <label for="date">Seleccione la fecha</label>
                     </div>
                 </div>
-                <input type="hidden" id="startDateHidden" name="startDate">
-                <input type="hidden" id="endDateHidden" name="endDate">
             </div>
         </form>
-        <div id="customRange" style="display: none;">
-            <form method="GET" action="{{ route('cashreport') }}">
-            <div class="col-md">
-                <select class="form-select" id="date" name="date" type="hidden">
-                    <option selected disabled>--Seleccione un rango--</option>
-                    <option value="4" selected>Personalizado</option>
-                </select>
-                <div class="form-floating">
-                    <input class="form-control" type="date" value="" id="startDate" name="inicioFecha"
-                           aria-label="Floating label select example">
-                    <label for="startDate">Inicio:</label>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Fecha Personalizada
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <form method="GET" action="{{ route('cashreport') }}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="date" value="" id="startDate" name="inicioFecha"
+                                           aria-label="Floating label select example">
+                                    <label for="startDate">Inicio:</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="date" value="" id="endDate" name="finFecha"
+                                           aria-label="Floating label select example">
+                                    <label for="endDate">Fin:</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-2" type="submit"  >Consultar</button>
+                    </form>
                 </div>
             </div>
-
-            <div class="col-md">
-                <div class="form-floating">
-                    <input class="form-control" type="date" value="" id="endDate" name="finFecha"
-                           aria-label="Floating label select example">
-                    <label for="endDate">Fin:</label>
-                </div>
-            </div>
-            <button class="btn btn-primary" type="submit"  >Consultar</button>
-            </form>
         </div>
-
         <br>
         <div style="display: flex; justify-content: space-between; width: 100%; margin: auto;">
             <div style="width: 220px; text-align: center;">
@@ -284,13 +285,8 @@
 
         <script>
             document.getElementById('date').addEventListener('change', function() {
-                if (this.value === '4') {
-                    document.getElementById('customRange').style.display = 'block';
-                } else {
-                    document.getElementById('customRange').style.display = 'none';
-                    this.form.dispatchEvent(new Event('submit', { cancelable: true }));
-                }
-            });
+                this.form.submit();
+            })
         </script>
 
 

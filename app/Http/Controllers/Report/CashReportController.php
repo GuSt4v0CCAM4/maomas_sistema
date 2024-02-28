@@ -29,156 +29,53 @@ class CashReportController extends Controller
         $firstDayMonth = date('Y-m-01');
         $lastDayMont = date('Y-m-t');
         // ---- FUNCIONES DATE
-        if ($selectedDate == '0') {
-            return view('report.cash', ['selectedDate' => $selectedDate]);
-        } else {
-            if ($selectedDate == '1') {
-                $tienda1 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 1)
-                    ->whereDate('profits.date', $currentDate)
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda2 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 2)
-                    ->whereDate('profits.date', $currentDate)
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda3 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 3)
-                    ->whereDate('profits.date', $currentDate)
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda4 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 4)
-                    ->whereDate('profits.date', $currentDate)
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-
-            } else if ($selectedDate == '2') {
-                $tienda1 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 1)
-                    ->whereBetween('profits.date', [$firstDayWeek, $lastDayWeek])
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda2 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 2)
-                    ->whereBetween('profits.date', [$firstDayWeek, $lastDayWeek])
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda3 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 3)
-                    ->whereBetween('profits.date', [$firstDayWeek, $lastDayWeek])
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda4 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 4)
-                    ->whereBetween('profits.date', [$firstDayWeek, $lastDayWeek])
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-            } else if ($selectedDate == '3') {
-                $tienda1 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 1)
-                    ->whereBetween('profits.date', [$firstDayMonth, $lastDayMont])
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda2 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 2)
-                    ->whereBetween('profits.date', [$firstDayMonth, $lastDayMont])
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda3 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 3)
-                    ->whereBetween('profits.date', [$firstDayMonth, $lastDayMont])
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda4 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 4)
-                    ->whereBetween('profits.date', [$firstDayMonth, $lastDayMont])
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-            } elseif ($request->date == '4') {
-                if (@isset($request->inicioFecha) && isset($request->finFecha)) {
-                    $tienda1 = DB::table('profits')
-                        ->join('stores', 'stores.id', '=', 'profits.id_store')
-                        ->select('profits.*', 'stores.*')
-                        ->where('profits.id_store', 1)
-                        ->whereBetween('profits.date', [$request->inicioFecha, $request->finFecha])
-                        ->orderBy('profits.date', 'asc')
-                        ->get();
-                    $tienda2 = DB::table('profits')
-                        ->join('stores', 'stores.id', '=', 'profits.id_store')
-                        ->select('profits.*', 'stores.*')
-                        ->where('profits.id_store', 2)
-                        ->whereBetween('profits.date', [$request->inicioFecha, $request->finFecha])
-                        ->orderBy('profits.date', 'asc')
-                        ->get();
-                    $tienda3 = DB::table('profits')
-                        ->join('stores', 'stores.id', '=', 'profits.id_store')
-                        ->select('profits.*', 'stores.*')
-                        ->where('profits.id_store', 3)
-                        ->whereBetween('profits.date', [$request->inicioFecha, $request->finFecha])
-                        ->orderBy('profits.date', 'asc')
-                        ->get();
-                    $tienda4 = DB::table('profits')
-                        ->join('stores', 'stores.id', '=', 'profits.id_store')
-                        ->select('profits.*', 'stores.*')
-                        ->where('profits.id_store', 4)
-                        ->whereBetween('profits.date', [$request->inicioFecha, $request->finFecha])
-                        ->orderBy('profits.date', 'asc')
-                        ->get();
+    if (isset($request->inicioFecha) && isset($request->finFecha)) {
+        $fin = $request->finFecha;
+        $inicio = $request->inicioFecha;
+    }
+    else{
+            if ($selectedDate == '0') {
+                return view('report.cash', ['selectedDate' => $selectedDate]);
+            } else {
+                if ($selectedDate == '2') {
+                    $inicio = $firstDayWeek;
+                    $fin = $lastDayWeek;
+                } else if ($selectedDate == '3') {
+                    $inicio = $firstDayMonth;
+                    $fin = $lastDayMont;
                 }
-            }else {
-                $tienda1 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 1)
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda2 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 2)
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda3 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 3)
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-                $tienda4 = DB::table('profits')
-                    ->join('stores', 'stores.id', '=', 'profits.id_store')
-                    ->select('profits.*', 'stores.*')
-                    ->where('profits.id_store', 4)
-                    ->orderBy('profits.date', 'asc')
-                    ->get();
-            }
 
-            return view('report.cash', ['tienda1' => $tienda1, 'tienda2' => $tienda2, 'tienda3' => $tienda3, 'tienda4' => $tienda4, 'selectedDate' => $selectedDate]);
+            }
         }
+
+        $tienda1 = DB::table('profits')
+            ->join('stores', 'stores.id', '=', 'profits.id_store')
+            ->select('profits.*', 'stores.*')
+            ->where('profits.id_store', 1)
+            ->whereBetween('profits.date', [$inicio, $fin])
+            ->orderBy('profits.date', 'asc')
+            ->get();
+        $tienda2 = DB::table('profits')
+            ->join('stores', 'stores.id', '=', 'profits.id_store')
+            ->select('profits.*', 'stores.*')
+            ->where('profits.id_store', 2)
+            ->whereBetween('profits.date', [$inicio, $fin])
+            ->orderBy('profits.date', 'asc')
+            ->get();
+        $tienda3 = DB::table('profits')
+            ->join('stores', 'stores.id', '=', 'profits.id_store')
+            ->select('profits.*', 'stores.*')
+            ->where('profits.id_store', 3)
+            ->whereBetween('profits.date', [$inicio, $fin])
+            ->orderBy('profits.date', 'asc')
+            ->get();
+        $tienda4 = DB::table('profits')
+            ->join('stores', 'stores.id', '=', 'profits.id_store')
+            ->select('profits.*', 'stores.*')
+            ->where('profits.id_store', 4)
+            ->whereBetween('profits.date', [$inicio, $fin])
+            ->orderBy('profits.date', 'asc')
+            ->get();
+        return view('report.cash', ['tienda1' => $tienda1, 'tienda2' => $tienda2, 'tienda3' => $tienda3, 'tienda4' => $tienda4, 'selectedDate' => $selectedDate]);
     }
 }
