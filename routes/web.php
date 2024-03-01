@@ -55,3 +55,6 @@ Route::get('/elimandocierredetienda', [App\Http\Controllers\Cash\CashRegisterCon
 
 //infoseller
 Route::get('/detallevendedores', [App\Http\Controllers\Report\SellerDetailsController::class, 'index'])->name('sellerdetails');
+
+//gastos
+Route::get('/reportegastos', [App\Http\Controllers\Report\ExpenseReportController::class, 'index'])->name('expensereport');

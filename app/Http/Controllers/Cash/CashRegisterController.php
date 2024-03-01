@@ -400,7 +400,7 @@ class CashRegisterController extends Controller
             } else {
                 $sale = $sale->first()->total;
             }
-            $profit = $sale - $expense;
+
             $pm = implode('|', $payment);
             ProfitRegister::create([
                 'payments' => $pm,
@@ -421,9 +421,10 @@ class CashRegisterController extends Controller
     {
         $id = request()->input('id');
         try{
+            DB::table('profit_observations')->where('id_profit', $id)->delete();
             DB::table('profits')->where('id_reg', $id)->delete();
         }catch (\Exception $e){
-            return redirect('cashregister')->with('error', 'Ocurrio un error a la hora de eliminar el registro');
+            return redirect('cashregister')->with('error', 'Ocurrio un error a la hora de eliminar el registro'. $e->getMessage());
         }
         return redirect('cashregister')->with('success', 'Se elimino el registro correctamente!!');
     }

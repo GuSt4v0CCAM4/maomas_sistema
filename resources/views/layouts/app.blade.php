@@ -60,6 +60,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('/detallevendedores')}}"> Reporte de Ventas</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url('/reportegastos')}}"> Informe de Gastos</a>
+                </li>
 
                 @guest
                     @if (Route::has('login'))
