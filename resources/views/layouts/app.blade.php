@@ -44,16 +44,18 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('/cashregister')}}"><i class="bi bi-caret-right-fill"></i> Registrar Caja</a>
                             </li>
+                            @if(auth()->user()->id == '1')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('/cashconsult')}}"><i class="bi bi-caret-right-fill"></i> Consultar Caja</a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 </li>
                 <!-- <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
                 </li> -->
-
+                @if(auth()->user()->id == '1')
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('/cashreport')}}">Informe de Ingresos</a>
                 </li>
@@ -63,6 +65,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('/reportegastos')}}"> Informe de Gastos</a>
                 </li>
+                @endif
 
                 @guest
                     @if (Route::has('login'))
