@@ -15,6 +15,7 @@
 
 
 
+
     <!-- Scripts -->
     @viteReactRefresh
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -96,9 +97,9 @@
             $events = \App\Models\ProfitRegister::all(['date', 'balance'])->toJson();
             @endphp
 
-            <div style="width: 220px; margin: 0 auto;">
+
                 <div id="calendar"></div>
-            </div>
+
             <!--
                         <div class="mb-5">
                             <h3 class="h6">Subscribe for newsletter</h3>
@@ -143,8 +144,13 @@
         }
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
+            themeSystem: 'bootstrap5',
+            height: 500,
             events: eventsArray,
-            initialView: 'dayGridMonth'
+            initialView: 'dayGridMonth',
+            locale: 'es',
+
+
         });
 
         calendar.render();

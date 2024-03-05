@@ -69,6 +69,7 @@
                 @if(isset($existe)) <!-- Si existe la venta -->
                     <label class="text_form">
                         Monto Registrado: S/. {{$valor_total->first()->amount}}
+
                         @php
                         $id_valor = $valor_total->first()->id_reg;
                         $venta = $valor_total->first()->amount;
