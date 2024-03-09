@@ -58,6 +58,24 @@ class ExpenseReportController extends Controller
             ->groupBy('expenses.expense_type')
             ->orderBy('expenses.expense_type','asc')
             ->get();
+        $expense_others = DB::table('expense_others')
+            ->join('cash_details', 'expense_others.id_expense', '=', 'cash_details.id_reg')
+            ->join('users', 'cash_details.id_user', '=', 'users.id')
+            ->select('cash_details.*', 'expense_others.*', 'users.name',
+                DB::raw('SUM(cash_details.amount) as total'))
+            ->whereBetween('cash_details.date', [$inicio, $fin])
+            ->groupBy('details')
+            ->orderBy('expense_others.id_expense','asc')
+            ->get();
+        $expense_provider = DB::table('expense_provider')
+            ->join('cash_details', 'expense_provider.id_expense', '=', 'cash_details.id_reg')
+            ->join('users', 'cash_details.id_user', '=', 'users.id')
+            ->select('cash_details.*', 'expense_provider.*', 'users.name',
+                DB::raw('SUM(cash_details.amount) as total'))
+            ->whereBetween('cash_details.date', [$inicio, $fin])
+            ->groupBy('provider')
+            ->orderBy('expense_provider.id_expense','asc')
+            ->get();
         $i = 0;
         $expense_o = '';
         foreach ($expense as $e){
@@ -85,6 +103,7 @@ class ExpenseReportController extends Controller
             $i++;
         }
         return view('report.expense', ['selectedDate' => $selectedDate, 'expense_table' => $expense,
-            'amount_label' => $amount_label, 'expense_label' => $expense_label]);
+            'amount_label' => $amount_label, 'expense_label' => $expense_label, 'others' => $expense_others,
+            'provider' => $expense_provider, 'users' => $users]);
     }
 }

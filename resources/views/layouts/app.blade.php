@@ -94,11 +94,29 @@
                 @endguest
             </ul>
             @php
-            $events = \App\Models\ProfitRegister::all(['date', 'balance'])->toJson();
+            $events = \App\Models\ProfitRegister::all(['date', 'id_store'])->toJson();
+
+
             @endphp
+            <button type="button" class="btn bg-dark text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="bi bi-calendar-date"></i> Calendario
+            </button>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-fullscreen-sm-down" >
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text_form" id="exampleModalLabel">Calendario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                                <div id="calendar" style="background-color: #dd0f29" ></div>
+
+                        </div>
+                    </div>
+                </div>
 
 
-                <div id="calendar"></div>
+
 
             <!--
                         <div class="mb-5">
@@ -133,27 +151,41 @@
         var events = {!! $events !!};
 
         var eventsArray = [];
+        var nombre_store = '';
+        var color_store = '';
 
         for (var i = 0; i < events.length; i++) {
+            if (events[i].id_store == 1) {
+                nombre_store = 'San Camilo';
+                color_store = 'blue';
+            }else if (events[i].id_store == 2) {
+                nombre_store = 'Maternos';
+                color_store = 'green';
+            }else if (events[i].id_store == 3) {
+                nombre_store = 'Maomas';
+                color_store = 'purple';
+            } else if (events[i].id_store == 4) {
+                nombre_store = 'Camana';
+                color_store = 'yellow';
+            }
             eventsArray.push({
-                title: 'Balance: ' + events[i].balance,
+
+                title: nombre_store,
                 start: events[i].date,
-                backgroundColor: 'green',
-                borderColor: 'green'
+                backgroundColor: color_store,
+                borderColor: color_store
             });
         }
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            themeSystem: 'bootstrap5',
-            height: 500,
+            height: 'auto',
             events: eventsArray,
             initialView: 'dayGridMonth',
             locale: 'es',
 
-
         });
-
         calendar.render();
+
     });
 </script>
 <script>

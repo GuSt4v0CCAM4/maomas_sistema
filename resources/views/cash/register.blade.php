@@ -206,7 +206,7 @@ style="background-color: #f0f0f0;"-->
                                             </div>
                                         </div>
                                         <div class="col-md-12 mb-3" id="otherInputContainer" style="display: none;">
-                                            <label for="otherInput" class="label">Otros Detalles:</label>
+                                            <label for="otherInput" class="label">Detalles:</label>
                                             <input type="text" class="form-control" id="otherInput" name="otherInput">
                                         </div>
                                         <button type="submit" class="btn btn-primary" style="display: none;">Enviar</button>
@@ -524,7 +524,7 @@ style="background-color: #f0f0f0;"-->
                 var otherInputContainer = document.getElementById('otherInputContainer');
                 var otherInput = document.getElementById('otherInput');
 
-                if (selectElement.value === '99' || selectElement.value === '199') {
+                if (selectElement.value === '99' || selectElement.value === '199' || selectElement.value === '6') {
                     otherInputContainer.style.display = 'block';
                     otherInput.required = true;
                 } else {

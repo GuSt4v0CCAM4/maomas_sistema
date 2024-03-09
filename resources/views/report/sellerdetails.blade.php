@@ -2,8 +2,14 @@
 @section('content')
     <div class="container">
         <div class="subtittle mb-3">
-            Detalles de los vendedores
-
+            Detalles de las ventas
+            @if(isset($inicio, $fin))
+                @php
+                    $inicio_f = strftime(" %d de %B", strtotime($inicio));
+                    $fin_f = strftime("%d de %B", strtotime($fin));
+                @endphp
+                del {{ $inicio_f }} al {{ $fin_f }}
+            @endif
         </div>
         <form method="GET" action="{{ route('sellerdetails') }}" id="customRangeForm">
             <div class="row g-2">
@@ -132,6 +138,7 @@
                 <tr>
                     <th>Trabajador</th>
                     <th>Promedio de Ventas</th>
+                    <th>N° de dias</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -145,6 +152,7 @@
                     <tr>
                         <td>{{ $name_label[$id_user] }}</td>
                         <td>S/. {{ array_sum(array_column($vendedor['datos'], 'profit')) / count($datosConNombre) }} al dia</td>
+                        <td>{{ count($datosConNombre) }}</td>
                     </tr>
                 @endforeach
                 @else
@@ -154,41 +162,35 @@
             </table>
         </div>
         <div class="col-md-6">
-            <h3 class="text-center">Ventas por Fecha (4 tiendas)</h3>
-            {{-- Punto 3: Ventas Totales y Promedio por Fecha --}}
+            <h3 class="text-center">Ventas de las 4 tiendas</h3>
+            {{-- Punto 7: Comparación de Tiendas --}}
             <table class="table mt-2 table-striped-columns">
-                <caption>Ventas Totales y Promedio por Fecha</caption>
+                <caption>Comparación de Ventas por Tienda</caption>
                 <thead class="table-dark">
                 <tr>
-                    <th>Fecha</th>
-                    <th>Ventas Totales </th>
-                    <th>Promedio de Ventas</th>
+                    <th>Tienda</th>
+                    <th>Ventas Totales</th>
                 </tr>
                 </thead>
                 <tbody>
-                @if(isset($matriz_datos[1]['datos']))
-                @foreach($matriz_datos[1]['datos'] as $fecha => $datos)
-                    <tr>
+                @if(isset($matriz_store))
+                    @foreach($matriz_store as $id_store => $tienda)
                         @php
-                            $fecha_formateada = strftime("%A %d de %B", strtotime($fecha));
+                        if ($id_store == 1){
+                            $tienda_F = 'San Camilo';
+                        } elseif ($id_store == 2){
+                            $tienda_F = 'Maternos';
+                        } elseif ($id_store == 3){
+                            $tienda_F = 'Maomas';
+                        } elseif ($id_store == 4){
+                            $tienda_F = 'Camana';
+                        }
                         @endphp
-                        <td>{{ $fecha_formateada }}</td>
-                        @php
-                            $ventasFecha = 0;
-                            for ($i = 0; $i < count($matriz_datos); $i++) {
-                                $id = $id_users[$i];
-                                if (isset($matriz_datos[$id]['datos'][$fecha]['name']))
-                                {
-                                    $ventasFecha += $matriz_datos[$id]['datos'][$fecha]['profit'];
-                                }
-                            }
-                                // Calcular el promedio de ventas para la fecha
-                                $promedioVentasFecha = $ventasFecha / 4;
-                        @endphp
-                        <td>S/. {{ $ventasFecha }}</td>
-                        <td>S/. {{ $promedioVentasFecha }} por Tienda</td>
-                    </tr>
-                @endforeach
+                        <tr>
+                            <td>{{ $tienda_F }}</td>
+                            <td>S/. {{ array_sum(array_column($tienda['datos'], 'profit')) }}</td>
+                        </tr>
+                    @endforeach
                 @else
                     <tr>No hay Datos </tr>
                 @endif
@@ -243,28 +245,7 @@
             </table>
         </div>
         <div class="col-md-6">
-            {{-- Punto 7: Comparación de Tiendas --}}
-            <table class="table mt-2 table-striped-columns">
-                <caption>Comparación de Ventas por Tienda</caption>
-                <thead class="table-dark">
-                <tr>
-                    <th>Tienda</th>
-                    <th>Ventas Totales</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if(isset($matriz_store))
-                @foreach($matriz_store as $id_store => $tienda)
-                    <tr>
-                        <td>{{ $id_store }}</td>
-                        <td>S/. {{ array_sum(array_column($tienda['datos'], 'profit')) }}</td>
-                    </tr>
-                @endforeach
-                @else
-                    <tr>No hay Datos </tr>
-                @endif
-                </tbody>
-            </table>
+
         </div>
     </div>
 

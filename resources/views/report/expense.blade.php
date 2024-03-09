@@ -54,6 +54,106 @@
             <h4>Proporcion de Gastos</h4>
             <canvas id="myChart"></canvas>
         </div>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <h3 class="text-center">Total de Gastos</h3>
+                {{-- Punto 1: Total de gastos --}}
+                <table class="table mt-2 table-striped-columns">
+                    <caption>Total de Gastos</caption>
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Gasto</th>
+                        <th>Monto</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if(isset($expense_table )&& $expense_table->count() > 0)
+                        @foreach($expense_table as $e)
+                            @php
+                                if ($e->expense_type == 1) {
+                                    $expense_o = 'Luz/Agua/Telefono';
+                                } elseif ($e->expense_type == 2){
+                                    $expense_o = 'Alquileres';
+                                } elseif ($e->expense_type == 3){
+                                    $expense_o = 'Transporte';
+                                } elseif ($e->expense_type == 4){
+                                    $expense_o = 'Limpieza';
+                                } elseif ($e->expense_type == 5){
+                                    $expense_o = 'Devoluciones';
+                                } elseif ($e->expense_type == 6){
+                                    $expense_o = 'Proveedores';
+                                } elseif ($e->expense_type == 99){
+                                    $expense_o = 'Gastos Operativos - Otros';
+                                } elseif ($e->expense_type == 101){
+                                    $expense_o = 'Banco';
+                                } elseif ($e->expense_type == 199){
+                                    $expense_o = 'Gastos Administrativos - Otros';
+                                }
+                            @endphp
+                            <tr>
+                                <td>{{ $expense_o }}</td>
+                                <td>S/. {{ $e->amount }}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>No hay Datos </tr>
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-center">Detalles de Gastos (Otros)</h3>
+                {{-- Punto 2: Promedio de Ventas por Trabajador --}}
+                <table class="table mt-2 table-striped-columns">
+                    <caption>Detalles de Gastos (Otros)</caption>
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Gasto</th>
+                        <th>Monto</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if(isset($others))
+                        @foreach($others as $o)
+
+                            <tr>
+                                <td>{{ $o->details}}</td>
+                                <td>S/. {{ $o->amount}}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>No hay Datos </tr>
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-center">Proveedores Detalles</h3>
+                {{-- Punto 7: Comparación de Tiendas --}}
+                <table class="table mt-2 table-striped-columns">
+                    <caption>Proveedores Detalles</caption>
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Monto</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if(isset($provider))
+                        @foreach($provider as $p)
+
+                            <tr>
+                                <td>{{ $p->provider}}</td>
+                                <td>S/. {{ $p->amount}}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>No hay Datos </tr>
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <script>
 
             document.getElementById('date').addEventListener('change', function() {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cash;
 use App\Http\Controllers\Controller;
 use App\Models\CashRegister;
 use App\Models\DetailsRegister;
+use App\Models\ExpenseProvider;
 use App\Models\ExpenseRegister;
 use App\Models\OtherExpenseRegister;
 use App\Models\PaymentRegister;
@@ -200,6 +201,12 @@ class CashRegisterController extends Controller
                     OtherExpenseRegister::create([
                         'id_expense' => $id_cash,
                         'details' => $other,
+                    ]);
+                } elseif ($request->input('expense')== 6 ){
+                    $details_r = $request-> input('otherInput');
+                    ExpenseProvider::create([
+                        'id_expense' => $id_cash,
+                        'provider' => $details_r
                     ]);
                 }
             }

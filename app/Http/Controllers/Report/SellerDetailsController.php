@@ -110,7 +110,7 @@ class SellerDetailsController extends Controller
             ksort($usuario['datos']);
         }
         return view('report.sellerdetails', ['selectedDate'=>$selectedDate, 'users'=>$users, 'matriz_datos' => $matriz_datos,
-            'ranking' => $ranking, 'matriz_profit'=>$matriz_profit, 'matriz_store'=>$matriz_store]);
+            'ranking' => $ranking, 'matriz_profit'=>$matriz_profit, 'matriz_store'=>$matriz_store, 'fin' => $fin, 'inicio' => $inicio]);
 
     }
 }
