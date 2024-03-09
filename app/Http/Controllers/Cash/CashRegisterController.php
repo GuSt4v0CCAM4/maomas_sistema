@@ -335,8 +335,11 @@ class CashRegisterController extends Controller
     {
         $id = request()->input('id');
         try{
+            DB::table('expense_others')->where('id_expense', $id)->delete();
+            DB::table('expense_provider')->where('id_expense', $id)->delete();
             DB::table('expenses')->where('id_cash', $id)->delete();
             DB::table('cash_details')->where('id_reg', $id)->delete();
+
         }catch (\Exception $e){
             return redirect()->route('cashregister')->with('error', 'Ocurrio un error a la hora de eliminar el registro');
         }
