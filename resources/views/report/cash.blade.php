@@ -134,9 +134,7 @@
                 <tr class="table-primary">
                     <th scope="row" >Subsuma</th>
                     <td></td> <!-- Deja las celdas vacías para las columnas que no deben tener valores en esta fila -->
-                    @foreach($totalGanancia as $key => $value)
-                        <td>S/. {{ $value }}</td>
-                    @endforeach
+                    <td colspan="5" class="text-center"><b>S/. {{ array_sum($totalGanancia) }}</b></td>
                     <th scope="row">S/. {{ $subsuma_g }}</th>
                     <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
@@ -186,9 +184,9 @@
                 <tr class="table-primary">
                     <th scope="row" >Subsuma</th>
                     <td></td> <!-- Deja las celdas vacías para las columnas que no deben tener valores en esta fila -->
-                    @foreach($totalGanancia as $key => $value)
-                        <td>S/. {{ $value }}</td>
-                    @endforeach
+
+                        <td colspan="5" class="text-center"><b>S/. {{ array_sum($totalGanancia) }}</b></td>
+
                     <th scope="row">S/. {{ $subsuma_g }}</th>
                     <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
@@ -237,9 +235,7 @@
                 <tr class="table-primary">
                     <th scope="row" >Subsuma</th>
                     <td></td> <!-- Deja las celdas vacías para las columnas que no deben tener valores en esta fila -->
-                    @foreach($totalGanancia as $key => $value)
-                        <td>S/. {{ $value }}</td>
-                    @endforeach
+                    <td colspan="5" class="text-center"><b>S/. {{ array_sum($totalGanancia) }}</b></td>
                     <th scope="row">S/. {{ $subsuma_g }}</th>
                     <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
@@ -295,9 +291,7 @@
                 <tr class="table-primary">
                     <th scope="row" >Subsuma</th>
                     <td></td> <!-- Deja las celdas vacías para las columnas que no deben tener valores en esta fila -->
-                    @foreach($totalGanancia as $key => $value)
-                        <td>S/. {{ $value }}</td>
-                    @endforeach
+                    <td colspan="5" class="text-center"><b>S/. {{ array_sum($totalGanancia) }}</b></td>
 
                     <th scope="row">S/. {{ $subsuma_g }}</th>
                     <th scope="row">S/. {{ $subsuma_t }}</th>
