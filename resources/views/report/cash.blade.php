@@ -76,6 +76,8 @@
                     <th scope="col">Yape</th>
                     <th scope="col">Plin</th>
                     <th scope="col">Tarjeta visa</th>
+                    <th scope="col">Ingresos</th>
+                    <th scope="col">Gastos</th>
                     <th scope="col">Total</th>
                 </tr>
             </thead>
@@ -85,11 +87,15 @@
                 $ganancias = [0.0,0.0,0.0,0.0]; //para los graficos
                 $expenses = [0.0,0.0,0.0,0.0];//para los graficos
                 $profits = [0.0,0.0,0.0,0.0];//para los graficos
+                $total_g = 0;
+                $total_t = 0;
             @endphp
             @if(isset($tienda1) && $tienda1->count() > 0)
                 @php
                     $rowspanValue = count($tienda1);
                     $subsuma = 0;
+                    $subsuma_g = 0;
+                    $subsuma_t = 0;
                 @endphp
                 <tr>
                     <th scope="row" rowspan="{{ $rowspanValue }}" style="background-color: rgba(255, 99, 132, 0.8)">{{ $tienda1->first()->name }}</th>
@@ -101,6 +107,10 @@
                         $totalGanancia[$i] += $arraypayment[$i];
                     }
                         $subsuma += array_sum($arraypayment);
+                        $subsuma_g += $t1->expense;
+                        $subsuma_t += $t1->profit;
+                        $total_g += $t1->expense;
+                        $total_t += $t1->profit;
                         $ganancias[0] += $t1->profit;
                         $expenses[0] += $t1->expense;
                         $profits[0] += $t1->sale;
@@ -118,6 +128,8 @@
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
                         <td>S/. {{array_sum($arraypayment)}}</td>
+                        <td>S/. {{$t1->expense}}</td>
+                        <td>S/. {{ $t1->profit }} </td>
                 </tr>
 
                 @endforeach
@@ -128,12 +140,16 @@
                         <td>S/. {{ $value }}</td>
                     @endforeach
                     <th scope="row">S/. {{ $subsuma }}</th>
+                    <th scope="row">S/. {{ $subsuma_g }}</th>
+                    <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
             @endif
             @if(isset($tienda2) && $tienda2->count() > 0)
                 @php
                     $rowspanValue = count($tienda2);
                     $subsuma = 0;
+                    $subsuma_g = 0;
+                    $subsuma_t = 0;
 
                 @endphp
                 <tr>
@@ -147,6 +163,10 @@
                             $totalGanancia[$i] += $arraypayment[$i];
                         }
                             $subsuma += array_sum($arraypayment);
+                            $subsuma_g += $t1->expense;
+                            $subsuma_t += $t1->profit;
+                            $total_g += $t1->expense;
+                            $total_t += $t1->profit;
                             $ganancias[1] += $t1->profit;
                             $expenses[1] += $t1->expense;
                         $profits[1] += $t1->sale;
@@ -162,6 +182,8 @@
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
                         <td>S/. {{array_sum($arraypayment)}}</td>
+                        <td>S/. {{$t1->expense}}</td>
+                        <td>S/. {{ $t1->profit }} </td>
                 </tr>
 
                 @endforeach
@@ -172,13 +194,16 @@
                         <td>S/. {{ $value }}</td>
                     @endforeach
                     <th scope="row">S/. {{ $subsuma }}</th>
+                    <th scope="row">S/. {{ $subsuma_g }}</th>
+                    <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
             @endif
             @if(isset($tienda3) && $tienda3->count() > 0)
                 @php
                     $rowspanValue = count($tienda3);
                     $subsuma = 0;
-
+                    $subsuma_g = 0;
+                    $subsuma_t = 0;
                 @endphp
                 <tr>
                     <th scope="row" rowspan="{{ $rowspanValue }}" style="background-color: rgba(255, 206, 86, 0.8)">{{ $tienda3->first()->name }}</th>
@@ -191,6 +216,10 @@
                             $totalGanancia[$i] += $arraypayment[$i];
                         }
                             $subsuma += array_sum($arraypayment);
+                            $subsuma_g += $t1->expense;
+                            $subsuma_t += $t1->profit;
+                            $total_g += $t1->expense;
+                            $total_t += $t1->profit;
                             $ganancias[2] += $t1->profit;
                             $expenses[2] += $t1->expense;
                             $profits[2] += $t1->sale;
@@ -206,6 +235,8 @@
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
                         <td>S/. {{array_sum($arraypayment)}}</td>
+                        <td>S/. {{$t1->expense}}</td>
+                        <td>S/. {{ $t1->profit }} </td>
                 </tr>
 
                 @endforeach
@@ -216,12 +247,16 @@
                         <td>S/. {{ $value }}</td>
                     @endforeach
                     <th scope="row">S/. {{ $subsuma }}</th>
+                    <th scope="row">S/. {{ $subsuma_g }}</th>
+                    <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
             @endif
             @if(isset($tienda4) && $tienda4->count() > 0)
                 @php
                     $rowspanValue = count($tienda4);
                     $subsuma = 0;
+                    $subsuma_g = 0;
+                    $subsuma_t = 0;
 
                 @endphp
                 <tr>
@@ -236,6 +271,10 @@
                             //de los registros para obtener la ganancia total por metodo de pago
                         }
                             $subsuma += array_sum($arraypayment); //ahora sumamos el valor de todos los medios de pago
+                            $subsuma_g += $t1->expense;
+                            $subsuma_t += $t1->profit;
+                            $total_g += $t1->expense;
+                            $total_t += $t1->profit;
                             // para tenr la ganancia del dia y lo adjuntamos en subsuma que se ira sumando con el arraypayment
                             // de cada dia para tener la subsuma de esa tienda en total
                             //del array para obtener la suma total de lo diferentes metodos de pago
@@ -255,6 +294,8 @@
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
                         <td>S/. {{array_sum($arraypayment)}}</td> <!-- sumamos el array para obtener la ganancia total de la tienda en un dia -->
+                        <td>S/. {{$t1->expense}}</td>
+                        <td>S/. {{ $t1->profit }} </td>
                 </tr>
 
                 @endforeach
@@ -265,6 +306,8 @@
                         <td>S/. {{ $value }}</td>
                     @endforeach
                     <th scope="row">S/. {{ $subsuma }}</th>
+                    <th scope="row">S/. {{ $subsuma_g }}</th>
+                    <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
             @endif
                 <tr>
@@ -275,6 +318,8 @@
                     <td >S/. {{ $totalGanancia[3] }}</td>
                     <td >S/. {{ $totalGanancia[4] }}</td>
                     <td >S/. {{array_sum($totalGanancia)}}</td>
+                    <td >S/. {{$total_g}}</td>
+                    <td >S/. {{$total_t}}</td>
                 </tr>
             </tbody>
         </table>
