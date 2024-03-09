@@ -76,7 +76,6 @@
                     <th scope="col">Yape</th>
                     <th scope="col">Plin</th>
                     <th scope="col">Tarjeta visa</th>
-                    <th scope="col">Ingresos</th>
                     <th scope="col">Gastos</th>
                     <th scope="col">Total</th>
                 </tr>
@@ -127,7 +126,6 @@
                         <td>S/. {{ $arraypayment[2] }}</td>
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
-                        <td>S/. {{array_sum($arraypayment)}}</td>
                         <td>S/. {{$t1->expense}}</td>
                         <td>S/. {{ $t1->profit }} </td>
                 </tr>
@@ -139,7 +137,6 @@
                     @foreach($totalGanancia as $key => $value)
                         <td>S/. {{ $value }}</td>
                     @endforeach
-                    <th scope="row">S/. {{ $subsuma }}</th>
                     <th scope="row">S/. {{ $subsuma_g }}</th>
                     <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
@@ -181,7 +178,6 @@
                         <td>S/. {{ $arraypayment[2] }}</td>
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
-                        <td>S/. {{array_sum($arraypayment)}}</td>
                         <td>S/. {{$t1->expense}}</td>
                         <td>S/. {{ $t1->profit }} </td>
                 </tr>
@@ -193,7 +189,6 @@
                     @foreach($totalGanancia as $key => $value)
                         <td>S/. {{ $value }}</td>
                     @endforeach
-                    <th scope="row">S/. {{ $subsuma }}</th>
                     <th scope="row">S/. {{ $subsuma_g }}</th>
                     <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
@@ -234,7 +229,6 @@
                         <td>S/. {{ $arraypayment[2] }}</td>
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
-                        <td>S/. {{array_sum($arraypayment)}}</td>
                         <td>S/. {{$t1->expense}}</td>
                         <td>S/. {{ $t1->profit }} </td>
                 </tr>
@@ -246,7 +240,6 @@
                     @foreach($totalGanancia as $key => $value)
                         <td>S/. {{ $value }}</td>
                     @endforeach
-                    <th scope="row">S/. {{ $subsuma }}</th>
                     <th scope="row">S/. {{ $subsuma_g }}</th>
                     <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
@@ -293,7 +286,7 @@
                         <td>S/. {{ $arraypayment[2] }}</td>
                         <td>S/. {{ $arraypayment[3] }}</td>
                         <td>S/. {{ $arraypayment[4] }}</td>
-                        <td>S/. {{array_sum($arraypayment)}}</td> <!-- sumamos el array para obtener la ganancia total de la tienda en un dia -->
+                        <!--      <td>S/. array_sum($arraypayment)</td> sumamos el array para obtener la ganancia total de la tienda en un dia -->
                         <td>S/. {{$t1->expense}}</td>
                         <td>S/. {{ $t1->profit }} </td>
                 </tr>
@@ -305,7 +298,7 @@
                     @foreach($totalGanancia as $key => $value)
                         <td>S/. {{ $value }}</td>
                     @endforeach
-                    <th scope="row">S/. {{ $subsuma }}</th>
+
                     <th scope="row">S/. {{ $subsuma_g }}</th>
                     <th scope="row">S/. {{ $subsuma_t }}</th>
                 </tr>
@@ -317,7 +310,6 @@
                     <td >S/. {{ $totalGanancia[2] }}</td>
                     <td >S/. {{ $totalGanancia[3] }}</td>
                     <td >S/. {{ $totalGanancia[4] }}</td>
-                    <td >S/. {{array_sum($totalGanancia)}}</td>
                     <td >S/. {{$total_g}}</td>
                     <td >S/. {{$total_t}}</td>
                 </tr>
