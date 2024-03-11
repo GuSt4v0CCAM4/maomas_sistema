@@ -98,7 +98,7 @@ class SellerDetailsController extends Controller
 
             // Actualizar el valor de profit para ese id_user y fecha
 
-            $matriz_datos[$id_user]['datos'][$date]['profit'] += $total_ventas;
+            $matriz_datos[$id_user]['datos'][$date]['profit'] = $total_ventas;
             $matriz_datos[$id_user]['datos'][$date]['store'] = $value->id_store;
         }
         foreach ($matriz_datos as &$usuario) {

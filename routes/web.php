@@ -58,3 +58,6 @@ Route::get('/detallevendedores', [App\Http\Controllers\Report\SellerDetailsContr
 
 //gastos
 Route::get('/reportegastos', [App\Http\Controllers\Report\ExpenseReportController::class, 'index'])->name('expensereport');
+
+//reporte tienda
+Route::get('/reportetienda', [App\Http\Controllers\Report\StoreController::class, 'index'])->name('storereport');

@@ -3,48 +3,69 @@
     <div class="container">
         <div class="subtittle mb-3">
             Informe de Caja
+            @if(isset($inicio, $fin))
+                @php
+                    $inicio_f = strftime(" %d de %B", strtotime($inicio));
+                    $fin_f = strftime("%d de %B", strtotime($fin));
+                @endphp
+                del {{ $inicio_f }} al {{ $fin_f }}
+            @endif
         </div>
-        <form method="GET" action="{{ route('cashreport') }}" id="customRangeForm">
-            <div class="row g-2">
-                <div class="col-md">
-                    <div class="form-floating">
-                        <select class="form-select" id="date" name="date">
-                            <option selected disabled>--Seleccione un rango--</option>
-                            <option value="2" {{ $selectedDate == '2' ? 'selected' : '' }}>Semana</option>
-                            <option value="3" {{ $selectedDate == '3' ? 'selected' : '' }}>Mensual</option>
-                        </select>
-                        <label for="date">Seleccione la fecha</label>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Fecha Personalizada
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <form method="GET" action="{{ route('cashreport') }}">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input class="form-control" type="date" value="" id="startDate" name="inicioFecha"
-                                           aria-label="Floating label select example">
-                                    <label for="startDate">Inicio:</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input class="form-control" type="date" value="" id="endDate" name="finFecha"
-                                           aria-label="Floating label select example">
-                                    <label for="endDate">Fin:</label>
-                                </div>
+        <div class="row">
+            <div class="col-md-6">
+                <form method="GET" action="{{ route('cashreport') }}" id="customRangeForm">
+                    <div class="row g-2">
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <select class="form-select" id="date" name="date">
+                                    <option selected disabled>--Seleccione un rango--</option>
+                                    <option value="2" {{ $selectedDate == '2' ? 'selected' : '' }}>Semana</option>
+                                    <option value="3" {{ $selectedDate == '3' ? 'selected' : '' }}>Mensual</option>
+                                </select>
+                                <label for="date">Seleccione la fecha</label>
                             </div>
                         </div>
-                        <button class="btn btn-primary mt-2" type="submit"  >Consultar</button>
-                    </form>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Fecha Personalizada
+
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <form method="GET" action="{{ route('cashreport') }}">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="date"  id="startDate" name="inicioFecha"
+                                                   aria-label="Floating label select example"
+                                            @if(isset($inicio) && $inicio != 0)
+                                                value="{{ $inicio }}"
+                                            @endif>
+                                            <label for="startDate">Inicio:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="date"  id="endDate" name="finFecha"
+                                                   aria-label="Floating label select example"
+                                            @if(isset($fin) && $fin != 0)
+                                                value="{{ $fin }}"
+                                            @endif>
+                                            <label for="endDate">Fin:</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-2" type="submit"  >Consultar</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

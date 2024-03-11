@@ -23,18 +23,68 @@
 </head>
 <body style="background-color: #ffffff;">
 <div class="wrapper d-flex align-items-stretch">
-    <nav id="sidebar">
+    <nav id="sidebar" style="@if(isset($selectedStore,) && $selectedStore != 0)
+
+                        @if($selectedStore == 1)
+                            background: #dd0f29;
+                        @elseif($selectedStore == 2)
+                            background: #8CC084;
+                        @elseif($selectedStore == 3)
+                            background: #BFA3C4;
+                        @elseif($selectedStore == 4)
+                            background: #7FB4DD;
+                        @endif
+                        @else
+                            background: #dd0f29;
+
+                    @endif ">
         <div class="custom-menu">
-            <button type="button" id="sidebarCollapse" class="btn btn-outline" style="background: #dd0f29;
-         border-color: #dd0f29;">
+            <button type="button" id="sidebarCollapse" class="btn btn-outline" style="@if(isset($selectedStore,) && $selectedStore != 0)
+
+                        @if($selectedStore == 1)
+                            background: #dd0f29;
+                            border-color: #dd0f29;
+                        @elseif($selectedStore == 2)
+                            background: #8CC084;
+                            border-color: #8CC084;
+                        @elseif($selectedStore == 3)
+                            background: #BFA3C4;
+                            border-color: #BFA3C4;
+                        @elseif($selectedStore == 4)
+                            background: #7FB4DD;
+                            border-color: #7FB4DD;
+                        @endif
+                        @else
+                            background: #dd0f29;
+                            border-color: #dd0f29;
+
+                    @endif">
                 <i class="bi bi-list" style="color: white;"></i>
                 <span class="visually-hidden">Toggle Menu</span>
             </button>
         </div>
         <div class="p-4 pt-5">
+
+
             <h1><a class="navbar-brand" href="{{ url('/home') }}">
                     Maoma's
+                    <h5 id="selectedStore">
+                    @if(isset($selectedStore,) && $selectedStore != 0)
+
+                        @if($selectedStore == 1)
+                            San Camilo
+                        @elseif($selectedStore == 2)
+                            Maternos
+                        @elseif($selectedStore == 3)
+                            Maomas
+                        @elseif($selectedStore == 4)
+                            Camana
+                        @endif
+                    @endif
+                    </h5>
                 </a></h1>
+
+
             <ul class="nav flex-column mb-4">
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#homeSubmenu" aria-expanded="false">
@@ -61,11 +111,23 @@
                     <a class="nav-link" href="{{url('/cashreport')}}">Informe de Ingresos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url('/detallevendedores')}}"> Reporte de Ventas</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{url('/reportegastos')}}"> Informe de Gastos</a>
                 </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#reportSubmenu" aria-expanded="false">
+                            Reportes
+                        </a>
+                        <div class="collapse" id="reportSubmenu">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{url('/detallevendedores')}}"><i class="bi bi-caret-right-fill"></i> Reporte General</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="{{url('/reportetienda')}}"><i class="bi bi-caret-right-fill"></i> Reporte de Tienda</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 @endif
 
                 @guest
@@ -142,6 +204,9 @@
         @yield('content')
     </main>
 </div>
+
+
+
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
 <script>

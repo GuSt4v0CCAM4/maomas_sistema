@@ -514,10 +514,12 @@ style="background-color: #f0f0f0;"-->
                 })
                 document.getElementById('store').addEventListener('change', function() {
                     this.form.submit();
+
                 })
                 document.getElementById('user').addEventListener('change', function (){
                     this.form.submit();
                 })
+
             </script>
         <script>
             function showHideOtherInput(selectElement) {

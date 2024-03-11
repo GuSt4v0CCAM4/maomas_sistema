@@ -29,7 +29,7 @@ class CashReportController extends Controller
         $firstDayMonth = date('Y-m-01');
         $lastDayMont = date('Y-m-t');
         // ---- FUNCIONES DATE
-    if (isset($request->inicioFecha) && isset($request->finFecha)) {
+    if (isset($request->inicioFecha) && isset($request->finFecha)) { //primero verificamos si estan las fechas personalizadas
         $fin = $request->finFecha;
         $inicio = $request->inicioFecha;
     }
@@ -76,6 +76,7 @@ class CashReportController extends Controller
             ->whereBetween('profits.date', [$inicio, $fin])
             ->orderBy('profits.date', 'asc')
             ->get();
-        return view('report.cash', ['tienda1' => $tienda1, 'tienda2' => $tienda2, 'tienda3' => $tienda3, 'tienda4' => $tienda4, 'selectedDate' => $selectedDate]);
+        return view('report.cash', ['tienda1' => $tienda1, 'tienda2' => $tienda2, 'tienda3' => $tienda3,
+            'tienda4' => $tienda4, 'selectedDate' => $selectedDate, 'inicio' => $inicio, 'fin' => $fin]);
     }
 }
