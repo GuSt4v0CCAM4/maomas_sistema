@@ -222,16 +222,16 @@
         for (var i = 0; i < events.length; i++) {
             if (events[i].id_store == 1) {
                 nombre_store = 'San Camilo';
-                color_store = 'blue';
+                color_store = '#dd0f29';
             }else if (events[i].id_store == 2) {
                 nombre_store = 'Maternos';
-                color_store = 'green';
+                color_store = '#8CC084';
             }else if (events[i].id_store == 3) {
                 nombre_store = 'Maomas';
-                color_store = 'purple';
+                color_store = '#BFA3C4';
             } else if (events[i].id_store == 4) {
                 nombre_store = 'Camana';
-                color_store = 'yellow';
+                color_store = '#7FB4DD';
             }
             eventsArray.push({
 
