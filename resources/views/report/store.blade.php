@@ -127,8 +127,9 @@
             if (in_array($user->id, $id)) {
                 $name_label[$user->id] = $user->name;
                 $id_users[] = $user->id;
+                $count = count($matriz_store[$user->id]['datos']);
             }
-            $count = count($matriz_store[$user->id]['datos']);
+
         }
 
         @endphp
