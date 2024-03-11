@@ -21,7 +21,7 @@
 <div id="screen">
 
     <div id="card">
-        <div id="image" style="background-image: url('{{asset('/resources/images/image.png') }}');">
+        <div id="image" style="background-image: url('{{asset('images/image.png') }}');">
         </div>
         <div id="text_welcome">
             Bienvenido a Maoma's Store

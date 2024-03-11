@@ -116,7 +116,7 @@
             @endphp
         @endforeach
     @endif
-    @if(isset($matriz_store, $users))
+    @if(isset($matriz_store, $users) && count($matriz_store) > 0)
         @php
             $name_label = [];
             $id_users = [];
@@ -133,7 +133,7 @@
 
         @endphp
     @endif
-    @if(isset($selectedStore) && $selectedStore != '0')
+    @if(isset($selectedStore, $matriz_store) && $selectedStore != '0' && count($matriz_store) > 0)
     <h5 class="mt-4"> En este periodo de tiempo, la tienda
             @if($selectedStore == 1) San Camilo
             @elseif($selectedStore == 2) Maternos
@@ -383,7 +383,7 @@
         })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    @if(isset($matriz_store))
+    @if(isset($matriz_store) && count($matriz_store) > 0)
         <script>
             // Inyecta los datos de Laravel en tu script de Chart.js
             var matriz_datos = @json($matriz_store);

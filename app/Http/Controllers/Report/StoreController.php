@@ -24,6 +24,8 @@ class StoreController extends Controller
         $currentDate = date('Y-m-d');
         $currentDayWeek = date('N', strtotime($currentDate));
         // ---- FUNCIONES DATE
+        $expense_label = [];
+        $amount_label = [];
         $matriz_store = [];
         $fin = 0;
         $inicio = 0;
