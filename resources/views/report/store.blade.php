@@ -102,7 +102,8 @@
         $ganancia_t = 0;
         if (isset($data_profit)){
             foreach ($data_profit as $p){
-                $ganancia_t += $p->sale + $p->expense;
+                $toalsuma = $p->sale + $p->expense;
+                $ganancia_t += $toalsuma;
             }
         }
 
