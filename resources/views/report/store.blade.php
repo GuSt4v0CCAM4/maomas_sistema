@@ -100,10 +100,11 @@
         $totales = [];
         $nombres = [];
         $ganancia_t = 0;
-        if (isset($data_profit)){
-            foreach ($data_profit as $p){
-                $toalsuma = $p->sale + $p->expense;
-                $ganancia_t += $toalsuma;
+        if (isset($matriz_store)){
+            foreach ($matriz_store as $key => $value) {
+                foreach ($value['datos'] as $key2 => $value2) {
+                    $ganancia_t += $value2['profit'];
+                }
             }
         }
 
