@@ -200,7 +200,7 @@
                         @endphp
                         <tr>
                             <td>{{ $tienda_F }}</td>
-                            <td>S/. {{ array_sum(array_column($id_store['datos'], 'profit')) }}</td>
+                            <td>S/. {{ array_sum(array_column($tienda['datos'], 'profit')) }}</td>
 
                         </tr>
                     @endforeach
