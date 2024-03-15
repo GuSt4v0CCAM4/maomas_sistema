@@ -201,6 +201,7 @@
                         <tr>
                             <td>{{ $tienda_F }}</td>
                             <td>S/. {{ array_sum(array_column($tienda['datos'], 'profit')) }}</td>
+                           <h1>{{$tienda}}</h1>
                         </tr>
                     @endforeach
                 @else
