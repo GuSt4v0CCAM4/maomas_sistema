@@ -22,7 +22,7 @@
                 @endphp
                 del {{ $inicio_f }} al {{ $fin_f }}
             @endif
-
+            <button class="btn-light" onclick="imprimirPagina()">Imprimir</button>
         </div>
         <div class="row">
             <div class="col-md-8">
@@ -504,6 +504,11 @@
                 },
                 options: {}
             });
+        </script>
+        <script>
+            function imprimirPagina() {
+                window.print();
+            }
         </script>
     @endif
 @endsection
