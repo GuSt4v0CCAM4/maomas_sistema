@@ -22,7 +22,7 @@
                 @endphp
                 del {{ $inicio_f }} al {{ $fin_f }}
             @endif
-            <button class="btn-light" onclick="imprimirPagina()">Imprimir</button>
+            <button class="btn-light" onclick="imprimirPagina()"><i class="bi bi-printer"></i></button>
         </div>
         <div class="row">
             <div class="col-md-8">
